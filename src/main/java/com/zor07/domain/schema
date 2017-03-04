@@ -1,0 +1,14 @@
+Category ->
+id
+version
+type
+name
+rating
+
+Entry ->
+id
+version
+entryDate
+entryType
+category
+amount

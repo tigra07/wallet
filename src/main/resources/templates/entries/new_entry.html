@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Entry</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+    <script src="../static/js/functions.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <!--
+    entryDate
+    entryType
+    category
+    amount
+    -->
+    <h2>New Income Entry</h2>
+    <div>
+        <form class="form-horizontal" th:object="${entry}" th:action="@{/entries/save}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{version}"/>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Entry Date:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" th:field="*{entryDate}" th:required="required"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Entry Type:</label>
+                <div class="col-sm-10">
+                    <select th:field="*{entryType}" th:required="required"  id="entryType" onclick="toggleCategories()">
+                        <option th:each="type : ${entryType}"
+                                th:value="${type.name}"
+                                th:text="${type.name}">Entry Type</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Category:</label>
+                <div class="col-sm-10">
+                    <select th:field="*{category}" th:required="required" id="categories">
+                        <option th:selected="selected"
+                                th:value="null"> </option>
+
+                        <!--option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}">Category</option-->
+                    </select>
+                </div>
+            </div>
+
+            <script th:inline="javascript">
+                function toggleCategories() {
+                    $('#entryType').change(function () {
+                        /*<![CDATA[*/
+                        var categoriesArray = [[${categories}]];
+                        var options;
+                        options = "<option value selected='selected'>Select category</option>";
+                        for (var i = 0; i < categoriesArray.length; i++){
+                            if (categoriesArray[i].type.$name == $('#entryType').val()){
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            }
+                        }
+
+                        $('#categories').html(options);
+                        /*]]>*/
+
+                        <!-- влияем на выбор платформы -->
+//                        var options = [[${categories}]];
+//                        var currType;
+//                        if ($('#sessionType').val() == 'INCOME'){
+//                            currType =
+//                            options = "<option value='1'>ANDROID</option>"
+//                                    + "<option value='4'>IPHONE</option>";
+//                        } else {
+//                            options = "<option value='1'>ANDROID</option>"
+//                                    + "<option value='2'>WINPHONE</option>"
+//                                    + "<option value='3'>JAVA</option>"
+//                                    + "<option value='4'>IPHONE</option>";
+//                        }
+//                        $('#platform').html(options);
+                    });
+                }
+            </script>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Amount:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{amount}" th:required="required"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

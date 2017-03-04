@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Entries</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <div th:if="${not #lists.isEmpty(entries)}">
+        <h2>Entries</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Entry Date</th>
+                <th>Entry Type</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="entry : ${entries}">
+                <td th:text="${entry.entryDate}">Date</td>
+                <td th:text="${entry.entryType}">Type</td>
+                <td th:text="${entry.category}">Category</td>
+                <td th:text="${entry.amount}">Amount</td>
+                <td>
+                    <ul class="list-inline">
+                        <li><a th:href="${'/entries/details/' + entry.id}">View</a></li>
+                        <li><a th:href="${'/entries/edit/' + entry.id}">Edit</a></li>
+                        <li><a th:href="${'/entries/delete/' + entry.id}">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <a th:href="${'/entries/new_entry'}">Create entry</a>
+
+</div>
+</body>
+</html>

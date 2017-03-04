@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Categories</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(categories)}">
+        <h2>Categories</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.type}">Type</td>
+                <td th:text="${category.name}">Name</td>
+                <td th:text="${category.rating}">Rating</td>
+                <td>
+                    <ul class="list-inline">
+                        <li><a th:href="${ '/categories/details/' + category.id}">View</a></li>
+                        <li><a th:href="${'/categories/edit/' + category.id}">Edit</a></li>
+                        <li><a th:href="${'/categories/delete/' + category.id}">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <a th:href="${ '/categories/new'}">Create category</a>
+</div>
+
+</body>
+</html>
