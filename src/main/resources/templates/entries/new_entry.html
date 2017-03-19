@@ -1,11 +1,9 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
     <title>Entry</title>
 
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
-    <script src="../static/js/functions.js"></script>
 </head>
 <body>
 <div class="container">
@@ -44,9 +42,6 @@
                 <label class="col-sm-2 control-label">Category:</label>
                 <div class="col-sm-10">
                     <select th:field="*{category}" th:required="required" id="categories">
-                        <option th:selected="selected"
-                                th:value="null"> </option>
-
                         <!--option th:each="category : ${categories}"
                                 th:value="${category.id}"
                                 th:text="${category.name}">Category</option-->
@@ -55,6 +50,30 @@
             </div>
 
             <script th:inline="javascript">
+                $( document ).ready(function() {
+                    /*<![CDATA[*/
+                    var categoriesArray = [[${categories}]];
+                    var options;
+                    if ([[${oldCategory}]] == null)
+                        options = "<option value='null' selected='selected'>Select category</option>";
+                    else
+                        options = "<option value='null'>Select category</option>"
+
+                    if ($('#entryType').val() != "") {
+                        for (var i = 0; i < categoriesArray.length; i++){
+                            if (categoriesArray[i].type.$name == $('#entryType').val()){
+
+                                if ([[${oldCategory.name}]] == categoriesArray[i].name)
+                                    options += "<option value='"+categoriesArray[i].id+"' selected='selected' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                                else
+                                    options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            }
+                        }
+                    }
+                    $('#categories').html(options);
+                    /*]]>*/
+                });
+
                 function toggleCategories() {
                     $('#entryType').change(function () {
                         /*<![CDATA[*/
@@ -66,24 +85,8 @@
                                 options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
                             }
                         }
-
                         $('#categories').html(options);
                         /*]]>*/
-
-                        <!-- влияем на выбор платформы -->
-//                        var options = [[${categories}]];
-//                        var currType;
-//                        if ($('#sessionType').val() == 'INCOME'){
-//                            currType =
-//                            options = "<option value='1'>ANDROID</option>"
-//                                    + "<option value='4'>IPHONE</option>";
-//                        } else {
-//                            options = "<option value='1'>ANDROID</option>"
-//                                    + "<option value='2'>WINPHONE</option>"
-//                                    + "<option value='3'>JAVA</option>"
-//                                    + "<option value='4'>IPHONE</option>";
-//                        }
-//                        $('#platform').html(options);
                     });
                 }
             </script>
