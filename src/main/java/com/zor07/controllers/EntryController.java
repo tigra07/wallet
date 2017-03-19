@@ -1,5 +1,6 @@
 package com.zor07.controllers;
 
+import com.zor07.domain.Category;
 import com.zor07.domain.Entry;
 import com.zor07.domain.EntryType;
 import com.zor07.services.CategoryService;
@@ -40,6 +41,7 @@ public class EntryController {
 
     @RequestMapping("/entries/new_entry")
     public String newIncomeEntry(Model model){
+        model.addAttribute("oldCategory", new Category());
         model.addAttribute("categories", categoryService.list());
         model.addAttribute("entry", new Entry());
         model.addAttribute("entryType", entryService.getEntryTypes());
@@ -57,6 +59,9 @@ public class EntryController {
     public String editEntry(@PathVariable Integer id, Model model){
         Entry entry = entryService.getById(id);
         model.addAttribute("entry", entry);
+        if (entry.getCategory() != null){
+            model.addAttribute("oldCategory", entry.getCategory());
+        }
         model.addAttribute("entryType", EntryType.values());
         model.addAttribute("categories", categoryService.list());
         return "entries/new_entry";
