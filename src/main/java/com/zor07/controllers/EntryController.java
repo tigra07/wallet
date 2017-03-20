@@ -3,8 +3,10 @@ package com.zor07.controllers;
 import com.zor07.domain.Category;
 import com.zor07.domain.Entry;
 import com.zor07.domain.EntryType;
+import com.zor07.domain.Source;
 import com.zor07.services.CategoryService;
 import com.zor07.services.EntryService;
+import com.zor07.services.SourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class EntryController {
     private EntryService entryService;
     private CategoryService categoryService;
+    private SourceService sourceService;
+
+    @Autowired
+    public void setSourceService(SourceService sourceService) {
+        this.sourceService = sourceService;
+    }
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
@@ -41,6 +49,7 @@ public class EntryController {
 
     @RequestMapping("/entries/new_entry")
     public String newIncomeEntry(Model model){
+        model.addAttribute("sources", sourceService.list());
         model.addAttribute("oldCategory", new Category());
         model.addAttribute("categories", categoryService.list());
         model.addAttribute("entry", new Entry());
