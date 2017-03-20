@@ -22,6 +22,10 @@ public class Entry {
     @JoinColumn
     private Category category;
 
+    @ManyToOne
+    @JoinColumn
+    private Source source;
+
     private BigDecimal amount;
 
     public Entry() {
@@ -77,6 +81,14 @@ public class Entry {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     @Override

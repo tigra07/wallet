@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Sources</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(sources)}">
+        <h2>Sources</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="source : ${sources}">
+                <td th:text="${source.name}">Name</td>
+                <td th:text="${source.description}">Description</td>
+                <td>
+                    <ul class="list-inline">
+                        <li><a th:href="${'/sources/details/' + source.id}">View</a></li>
+                        <li><a th:href="${'/sources/edit/'    + source.id}">Edit</a></li>
+                        <li><a th:href="${'/sources/delete/'  + source.id}">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <a th:href="${ '/sources/new'}">Create source</a>
+</div>
+
+</body>
+</html>

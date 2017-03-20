@@ -15,6 +15,7 @@
         <table class="table table-striped">
             <tr>
                 <th>Entry Date</th>
+                <th>Entry Source</th>
                 <th>Entry Type</th>
                 <th>Category</th>
                 <th>Amount</th>
@@ -22,6 +23,7 @@
             </tr>
             <tr th:each="entry : ${entries}">
                 <td th:text="${entry.entryDate}">Date</td>
+                <td th:text="${entry.source}">Source</td>
                 <td th:text="${entry.entryType}">Type</td>
                 <td th:text="${entry.category}">Category</td>
                 <td th:text="${entry.amount}">Amount</td>

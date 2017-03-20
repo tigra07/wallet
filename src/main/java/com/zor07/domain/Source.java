@@ -3,23 +3,17 @@ package com.zor07.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"type", "name"})})
-public class Category {
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
+public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
     @Version
     private Integer version;
-
-    @Enumerated(EnumType.STRING)
-    private EntryType type;
-
     private String name;
+    private String description;
 
-    private Integer rating;
-
-    public Category() {
+    public Source() {
     }
 
     public Integer getId() {
@@ -38,14 +32,6 @@ public class Category {
         this.version = version;
     }
 
-    public EntryType getType() {
-        return type;
-    }
-
-    public void setType(EntryType type) {
-        this.type = type;
-    }
-
     public String getName() {
         return name;
     }
@@ -54,12 +40,12 @@ public class Category {
         this.name = name;
     }
 
-    public Integer getRating() {
-        return rating;
+    public String getDescription() {
+        return description;
     }
 
-    public void setRating(Integer rating) {
-        this.rating = rating;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
