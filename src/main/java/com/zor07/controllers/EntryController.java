@@ -73,6 +73,7 @@ public class EntryController {
         }
         model.addAttribute("entryType", EntryType.values());
         model.addAttribute("categories", categoryService.list());
+        model.addAttribute("sources", sourceService.list());
         return "entries/new_entry";
 
     }

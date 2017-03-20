@@ -21,6 +21,13 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-2 control-label">Entry Source:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${entry.source}">Source</p>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="col-sm-2 control-label">Entry Type:</label>
                 <div class="col-sm-10">
                     <p class="form-control-static" th:text="${entry.entryType}">Type</p>

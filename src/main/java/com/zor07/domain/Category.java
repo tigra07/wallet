@@ -3,9 +3,7 @@ package com.zor07.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(
-        uniqueConstraints={@UniqueConstraint(columnNames={"type", "name"})}
-)
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"type", "name"})})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

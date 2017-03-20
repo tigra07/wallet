@@ -3,6 +3,7 @@ package com.zor07.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,5 +46,10 @@ public class Source {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
