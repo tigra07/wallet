@@ -14,15 +14,48 @@
         <h2>Entries</h2>
         <table class="table table-striped">
             <tr>
-                <th>Entry Date</th>
+                <th colspan="2">Entry Date</th>
                 <th>Entry Source</th>
                 <th>Entry Type</th>
                 <th>Category</th>
                 <th>Amount</th>
                 <th>Actions</th>
             </tr>
+            <tr>
+                <td>
+                    <input type="date" class="form-control" id="dateFromFilter"/>
+                </td>
+                <td>
+                    <input type="date" class="form-control" id="dateToFilter"/>
+                </td>
+                <td>
+                    <select id="sourceFilter" class="form-control">
+                        <option>Select to filter...</option>
+                        <option>Source 1</option>
+                        <option>Source 2</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="typeFilter" class="form-control">
+                        <option>Select to filter...</option>
+                        <option>INCOME</option>
+                        <option>OUTCOME</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="categoryFilter" class="form-control">
+                        <option>Select to filter...</option>
+                        <option>Category 1</option>
+                        <option>Category 2</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="form-control"/>
+                </td>
+            </tr>
+
             <tr th:each="entry : ${entries}">
-                <td th:text="${entry.entryDate}">Date</td>
+                <td th:text="${entry.entryDate}" colspan="2">Date</td>
                 <td th:text="${entry.source}">Source</td>
                 <td th:text="${entry.entryType}">Type</td>
                 <td th:text="${entry.category}">Category</td>
