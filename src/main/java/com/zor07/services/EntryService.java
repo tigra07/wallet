@@ -7,9 +7,7 @@ import com.zor07.repositories.EntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -46,6 +44,7 @@ public class EntryService implements DomainService<Entry>{
     public List<EntryType> getEntryTypes(){
         return Arrays.asList(EntryType.values());
     }
+
 
 
 }

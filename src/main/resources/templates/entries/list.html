@@ -23,34 +23,34 @@
             </tr>
             <tr>
                 <td>
-                    <input type="date" class="form-control" id="dateFromFilter"/>
+                    <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/>
                 </td>
                 <td>
-                    <input type="date" class="form-control" id="dateToFilter"/>
+                    <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
                 </td>
                 <td>
-                    <select id="sourceFilter" class="form-control">
+                    <select id="sourceFilter" class="form-control" onchange="filter()">
                         <option>Select to filter...</option>
                         <option>Source 1</option>
                         <option>Source 2</option>
                     </select>
                 </td>
                 <td>
-                    <select id="typeFilter" class="form-control">
+                    <select id="typeFilter" class="form-control" onchange="filter()">
                         <option>Select to filter...</option>
                         <option>INCOME</option>
                         <option>OUTCOME</option>
                     </select>
                 </td>
                 <td>
-                    <select id="categoryFilter" class="form-control">
+                    <select id="categoryFilter" class="form-control" onchange="filter()">
                         <option>Select to filter...</option>
                         <option>Category 1</option>
                         <option>Category 2</option>
                     </select>
                 </td>
                 <td>
-                    <input type="text" class="form-control"/>
+                    <input id="amountFilter" type="text" class="form-control" onchange="filter()"/>
                 </td>
             </tr>
 

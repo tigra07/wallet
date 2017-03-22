@@ -1,18 +1,21 @@
 package com.zor07.controllers;
 
-import com.zor07.domain.Category;
-import com.zor07.domain.Entry;
-import com.zor07.domain.EntryType;
-import com.zor07.domain.Source;
+import com.zor07.domain.*;
 import com.zor07.services.CategoryService;
 import com.zor07.services.EntryService;
 import com.zor07.services.SourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @Controller
 public class EntryController {
@@ -82,5 +85,17 @@ public class EntryController {
     public String saveEntry(@PathVariable Integer id){
         entryService.delete(id);
         return "redirect:/entries/list";
+    }
+
+    @RequestMapping("/entries/api/filter")
+    public ResponseEntity<?> filter(@Valid @RequestBody SearchCriteria searchCriteria, Errors errors){
+        System.out.println((searchCriteria == null) + " " + (errors == null));
+        AjaxResponseBody result = new AjaxResponseBody();
+        if (errors.hasErrors()){
+            result.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(result);
+        }
+        result.setMsg("test");
+        return ResponseEntity.ok(result);
     }
 }
