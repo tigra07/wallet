@@ -33,7 +33,5 @@ public class CategoryLoader implements ApplicationListener<ContextRefreshedEvent
             category.setRating(i);
             repository.save(category);
         }
-
-
     }
 }
