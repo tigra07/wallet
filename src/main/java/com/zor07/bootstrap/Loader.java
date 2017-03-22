@@ -47,13 +47,14 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         source.setDescription("Дебетовая карта");
         sourceRepository.save(source);
 
-        source.setName("ВТБ24");
-        source.setDescription("Дебетовая карта");
-        sourceRepository.save(source);
+        Source source1 = new Source();
+        source1.setName("ВТБ24");
+        source1.setDescription("Дебетовая карта");
+        sourceRepository.save(source1);
 
-        source.setName("Тинькофф");
-        source.setDescription("Дебетовая карта");
-        sourceRepository.save(source);
-
+        Source source2 = new Source();
+        source2.setName("Тинькофф");
+        source2.setDescription("Дебетовая карта");
+        sourceRepository.save(source2);
     }
 }
