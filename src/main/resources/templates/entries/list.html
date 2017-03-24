@@ -12,7 +12,7 @@
 
     <div th:if="${not #lists.isEmpty(entries)}">
         <h2>Entries</h2>
-        <table class="table table-striped">
+        <table class="table table-striped" id="entriesTable">
             <tr>
                 <th colspan="2">Entry Date</th>
                 <th>Entry Source</th>
@@ -30,31 +30,77 @@
                 </td>
                 <td>
                     <select id="sourceFilter" class="form-control" onchange="filter()">
-                        <option>Select to filter...</option>
-                        <option>Source 1</option>
-                        <option>Source 2</option>
+                        <option value="" selected="selected">Select to Filter..</option>
+                        <option th:each="s : ${sources}"
+                                th:value="${s.id}"
+                                th:text="${s.name}">Source</option>
                     </select>
                 </td>
                 <td>
-                    <select id="typeFilter" class="form-control" onchange="filter()">
-                        <option>Select to filter...</option>
-                        <option>INCOME</option>
-                        <option>OUTCOME</option>
+                    <select id="typeFilter" class="form-control" onchange="toggleCategories()">
+                        <option value="" selected="selected">Select to Filter..</option>
+                        <option th:each="type : ${entryTypes}"
+                                th:value="${type.name}"
+                                th:text="${type.name}">Entry Type</option>
                     </select>
                 </td>
                 <td>
-                    <select id="categoryFilter" class="form-control" onchange="filter()">
-                        <option>Select to filter...</option>
-                        <option>Category 1</option>
-                        <option>Category 2</option>
+                    <select id="categoryFilter" class="form-control" onchange="">
+
                     </select>
                 </td>
                 <td>
                     <input id="amountFilter" type="text" class="form-control" onchange="filter()"/>
                 </td>
-            </tr>
+                <script th:inline="javascript">
+                    $( document ).ready(function() {
+                        /*<![CDATA[*/
+                        var categoriesArray = [[${categories}]];
+                        var options = "<option value='' selected='selected'>Select to Filter..</option>";
 
-            <tr th:each="entry : ${entries}">
+                        for (var i = 0; i < categoriesArray.length; i++){
+                            if (($('#typeFilter').val() != "") && categoriesArray[i].type.$name == $('#typeFilter').val()){
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            } else {
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            }
+                        }
+                        $('#categoryFilter').html(options);
+                        filter();
+                        /*]]>*/
+                    });
+
+                    function toggleCategories() {
+                        $('#typeFilter').change(function () {
+                            /*<![CDATA[*/
+                            var typeFilter = $('#typeFilter').val();
+                            var categoriesArray = [[${categories}]];
+                            var options = "<option value='' selected='selected'>Select to Filter..</option>";
+                            if  (typeFilter != "") {
+                                for (var i = 0; i < categoriesArray.length; i++){
+                                    var categoryTypeName = categoriesArray[i].type.$name;
+                                    if (categoryTypeName == typeFilter){
+                                        options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                                    }
+                                }
+                            } else {
+                                for (var i = 0; i < categoriesArray.length; i++){
+                                    options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                                }
+                            }
+
+                            $('#categoryFilter').html(options);
+                            /*]]>*/
+                        });
+                        filter();
+                    }
+                </script>
+
+            </tr>
+            <tr id="entries">
+
+            </tr>
+            <!--tr th:each="entry : ${entries}">
                 <td th:text="${entry.entryDate}" colspan="2">Date</td>
                 <td th:text="${entry.source}">Source</td>
                 <td th:text="${entry.entryType}">Type</td>
@@ -67,7 +113,7 @@
                         <li><a th:href="${'/entries/delete/' + entry.id}">Delete</a></li>
                     </ul>
                 </td>
-            </tr>
+            </tr-->
         </table>
     </div>
 

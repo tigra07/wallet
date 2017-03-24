@@ -1,6 +1,6 @@
 package com.zor07.domain;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by anzor on 22.03.17.
@@ -8,7 +8,7 @@ import java.util.List;
 public class AjaxResponseBody {
 
     private String msg;
-    List<Entry> result;
+    Set<Entry> entries;
 
     public String getMsg() {
         return msg;
@@ -18,11 +18,11 @@ public class AjaxResponseBody {
         this.msg = msg;
     }
 
-    public List<Entry> getResult() {
-        return result;
+    public Set<Entry> getEntries() {
+        return entries;
     }
 
-    public void setResult(List<Entry> result) {
-        this.result = result;
+    public void setEntries(Set<Entry> entries) {
+        this.entries = entries;
     }
 }

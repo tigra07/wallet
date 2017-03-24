@@ -3,6 +3,7 @@ package com.zor07.controllers;
 import com.zor07.domain.*;
 import com.zor07.services.CategoryService;
 import com.zor07.services.EntryService;
+import com.zor07.services.SearchCriteria;
 import com.zor07.services.SourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,10 @@ public class EntryController {
     @RequestMapping("/entries/list")
     public String list(Model model){
         model.addAttribute("entries", entryService.list());
+        /*Attributes for filtering entries*/
+        model.addAttribute("sources", sourceService.list());
+        model.addAttribute("entryTypes", entryService.getEntryTypes());
+        model.addAttribute("categories", categoryService.list());
         return "entries/list";
     }
 
@@ -89,13 +94,13 @@ public class EntryController {
 
     @RequestMapping("/entries/api/filter")
     public ResponseEntity<?> filter(@Valid @RequestBody SearchCriteria searchCriteria, Errors errors){
-        System.out.println((searchCriteria == null) + " " + (errors == null));
         AjaxResponseBody result = new AjaxResponseBody();
         if (errors.hasErrors()){
             result.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
             return ResponseEntity.badRequest().body(result);
         }
-        result.setMsg("test");
+        result.setMsg("Filtered");
+        result.setEntries(entryService.findAllMatchingCriteria(searchCriteria));
         return ResponseEntity.ok(result);
     }
 }
