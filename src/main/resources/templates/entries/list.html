@@ -14,7 +14,8 @@
         <h2>Entries</h2>
         <table class="table table-striped" id="entriesTable">
             <tr>
-                <th colspan="2">Entry Date</th>
+                <th>ID</th>>
+                <th>Entry Date</th>
                 <th>Entry Source</th>
                 <th>Entry Type</th>
                 <th>Category</th>
@@ -22,11 +23,10 @@
                 <th>Actions</th>
             </tr>
             <tr>
-                <td>
-                    <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/>
-                </td>
-                <td>
-                    <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
+                <td>ID</td>
+                <br>
+                    FROM: <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/> <br/>
+                    TO:   <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
                 </td>
                 <td>
                     <select id="sourceFilter" class="form-control" onchange="filter()">
@@ -45,7 +45,7 @@
                     </select>
                 </td>
                 <td>
-                    <select id="categoryFilter" class="form-control" onchange="">
+                    <select id="categoryFilter" class="form-control" onchange="filter()">
 
                     </select>
                 </td>

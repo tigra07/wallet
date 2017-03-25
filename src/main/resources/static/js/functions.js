@@ -24,15 +24,21 @@ function filter() {
         success: function (data) {
             var entries = data.entries;
             var table = document.getElementById("entriesTable");
+
+            while (table.rows.length > 2){
+                table.deleteRow(2);
+            }
             for (var i = 0; i < entries.length; i++){
-                var row = table.insertRow(table.rows.length - 1);
-                var cellDate     = row.insertCell(0);
-                var cellDate2    = row.insertCell(1);
-                var cellSource   = row.insertCell(2);
-                var cellType     = row.insertCell(3);
-                var cellCategory = row.insertCell(4);
-                var cellAmount   = row.insertCell(5);
-                var cellActions  = row.insertCell(6);
+                var row = table.insertRow(2);
+                var cellId       = row.insertCell(0)
+                var cellDate     = row.insertCell(1);
+                var cellDate2    = row.insertCell(2);
+                var cellSource   = row.insertCell(3);
+                var cellType     = row.insertCell(4);
+                var cellCategory = row.insertCell(5);
+                var cellAmount   = row.insertCell(6);
+                var cellActions  = row.insertCell(7);
+                cellId.innerHTML       = entries[i].id;
                 cellDate.innerHTML     = entries[i].entryDate;
                 cellDate2.innerHTML    = "";
                 cellSource.innerHTML   = entries[i].source.name;

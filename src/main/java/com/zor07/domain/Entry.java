@@ -104,7 +104,23 @@ public class Entry implements Comparable<Entry> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Entry entry = (Entry) o;
+
+        return entry.id.equals(id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
     public int compareTo(Entry o) {
-        return id.compareTo(o.getId());
+        return o.getId().compareTo(id);
     }
 }

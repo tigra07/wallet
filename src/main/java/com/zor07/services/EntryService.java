@@ -8,17 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EntryService implements DomainService<Entry>{
     
     private EntryRepository repository;
-    private SourceService sourceService;
-
-    @Autowired
-    public void setSourceService(SourceService sourceService) {
-        this.sourceService = sourceService;
-    }
 
     @Autowired
     public void setRepository(EntryRepository repository) {
@@ -51,71 +46,58 @@ public class EntryService implements DomainService<Entry>{
     }
 
     public Set<Entry> findAllMatchingCriteria(SearchCriteria criteria){
-        System.out.println("Finding");
         criteria.parse();
         Set<Entry> result = new TreeSet<>();
-
-        if (criteria.filterIsEmpty()){
-            System.out.println("Empty filter");
-            result.addAll(list());
+        result.addAll(list());
+        if (criteria.filterIsEmpty())
             return result;
+
+        Date dateFrom = criteria.getDateFromFilter();
+        Date dateTo = criteria.getDateToFilter();
+        EntryType typeFilter = criteria.getTypeFilter();
+
+        Integer categoryFilterId = criteria.getCategoryFilter() == null
+                ? null
+                : criteria.getCategoryFilter().getId();
+
+        Integer sourceFilterId = criteria.getSourceFilter() == null
+                ? null
+                : criteria.getSourceFilter().getId();
+
+        /* Filter by FromDate */
+        if (dateFrom != null){
+            result = result.stream()
+                    .filter(e -> e.getEntryDate().compareTo(dateFrom) >= 0)
+                    .collect(Collectors.toSet());
         }
 
-        for (Entry entry : list()){
-            /* Filter by FromDate */
-            if (criteria.getDateFromFilter() != null){
-                Date fromDate = criteria.getDateFromFilter();
-                if (entry.getEntryDate().compareTo(fromDate) >= 0){
-                    result.add(entry);
-                    continue;
-                } else {
-                    continue;
-                }
-            }
-
-            /* Filter by ToDate */
-            if (criteria.getDateToFilter() != null){
-                Date toDate = criteria.getDateToFilter();
-                if (entry.getEntryDate().compareTo(toDate) <= 0){
-                    result.add(entry);
-                    continue;
-                } else {
-                    continue;
-                }
-            }
-
-            /* Filter by Source */
-            if (criteria.getSourceFilter() != null){
-                Integer sourceFilterId = criteria.getSourceFilter().getId();
-                Integer entrySourceId = entry.getSource().getId();
-                if (entrySourceId.equals(sourceFilterId)){
-                    result.add(entry);
-                    continue;
-                } else {
-                    continue;
-                }
-            }
-
-            /* Filter by EntryType */
-            if (criteria.getTypeFilter() != null){
-                if (entry.getEntryType().equals(criteria.getTypeFilter())){
-                    result.add(entry);
-                    continue;
-                } else {
-                    continue;
-                }
-            }
-
-            /* Filter by Category */
-            if (criteria.getCategoryFilter() != null){
-                Integer categoryFilterId = criteria.getCategoryFilter().getId();
-                Integer entryCategoryId = entry.getCategory().getId();
-                if (categoryFilterId.equals(entryCategoryId)) {
-                    result.add(entry);
-                }
-            }
+        /* Filter by ToDate */
+        if (dateTo != null){
+            result = result.stream()
+                    .filter(e -> e.getEntryDate().compareTo(dateTo) <= 0)
+                    .collect(Collectors.toSet());
         }
-        System.out.println("Result Length - " + result.size());
+
+        /* Filter by Source */
+        if (sourceFilterId != null){
+            result = result.stream()
+                    .filter(e -> e.getSource().getId().equals(sourceFilterId))
+                    .collect(Collectors.toSet());
+        }
+
+        /* Filter by EntryType */
+        if (typeFilter != null){
+            result = result.stream()
+                    .filter(e -> e.getEntryType().equals(typeFilter))
+                    .collect(Collectors.toSet());
+        }
+
+        /* Filter by Category */
+        if (categoryFilterId != null){
+            result =  result.stream()
+                    .filter(e -> e.getCategory().getId().equals(categoryFilterId))
+                    .collect(Collectors.toSet());
+        }
         return result;
     }
 }

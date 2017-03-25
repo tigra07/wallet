@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -99,8 +100,16 @@ public class EntryController {
             result.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
             return ResponseEntity.badRequest().body(result);
         }
-        result.setMsg("Filtered");
-        result.setEntries(entryService.findAllMatchingCriteria(searchCriteria));
+        Set<Entry> entries = entryService.findAllMatchingCriteria(searchCriteria);
+        result.setEntries(entries);
+
+        if (entries.isEmpty()) {
+            result.setMsg("no user found!");
+        } else {
+            result.setMsg("success");
+        }
+
+
         return ResponseEntity.ok(result);
     }
 }

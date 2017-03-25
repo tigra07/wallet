@@ -7,7 +7,6 @@ import com.zor07.domain.Source;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.IntSummaryStatistics;
 
 /**
  * Created by anzor on 22.03.17.
@@ -59,9 +58,7 @@ public class SearchCriteria {
 
         categoryFilter = "".equals(categoryFilterStr)
                 ? null
-                : typeFilter == null
-                    ? categoryService.getByName(categoryFilterStr)
-                    : categoryService.getByTypeAndName(typeFilter, categoryFilterStr);
+                : categoryService.getById(Integer.parseInt(categoryFilterStr));
 
     }
 
@@ -75,7 +72,7 @@ public class SearchCriteria {
 
 
     private Date parseDate(String strDate){
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date parsed = null;
         try {
             parsed = format.parse(strDate);
@@ -127,14 +124,6 @@ public class SearchCriteria {
 
     public void setAmountFilterStr(String amountFilterStr) {
         this.amountFilterStr = amountFilterStr;
-    }
-
-    public void sout(){
-        System.out.println(dateFromFilterStr);
-        System.out.println(dateToFilterStr);
-        System.out.println(sourceFilterStr);
-        System.out.println(typeFilterStr);
-        System.out.println(categoryFilterStr);
     }
 
 }
