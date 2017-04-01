@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,7 +42,8 @@ public class EntryController {
 
     @RequestMapping("/entries/list")
     public String list(Model model){
-        model.addAttribute("entries", entryService.list());
+        model.addAttribute("noEntries", entryService.list().isEmpty());
+
         /*Attributes for filtering entries*/
         model.addAttribute("sources", sourceService.list());
         model.addAttribute("entryTypes", entryService.getEntryTypes());
@@ -100,7 +101,7 @@ public class EntryController {
             result.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
             return ResponseEntity.badRequest().body(result);
         }
-        Set<Entry> entries = entryService.findAllMatchingCriteria(searchCriteria);
+        List<Entry> entries = entryService.findAllMatchingCriteria(searchCriteria);
         result.setEntries(entries);
 
         if (entries.isEmpty()) {

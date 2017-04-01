@@ -13,7 +13,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
+import java.util.GregorianCalendar;
 
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent>{
@@ -78,7 +79,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private void createEntries(int i, Category category){
         for (int j = 0; j < 4; j++) {
             Entry e = new Entry();
-            e.setEntryDate(new java.sql.Date(new Date().getTime()));
+            e.setEntryDate(getRandDate());
             e.setEntryType(category.getType());
             e.setCategory(category);
             switch (i % 3){
@@ -95,6 +96,22 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
             e.setAmount(new BigDecimal((i + j) * 3 + 13));
             entryRepo.save(e);
         }
+    }
+
+    private static Date getRandDate(){
+        GregorianCalendar gc = new GregorianCalendar();
+        int year = randBetween(2010, 2017);
+        gc.set(gc.YEAR, year);
+
+        int dayOfYear = randBetween(1, gc.getActualMaximum(gc.DAY_OF_YEAR));
+        gc.set(gc.DAY_OF_YEAR, dayOfYear);
+        return new Date(gc.getTimeInMillis());
+
+    }
+
+
+    private static int randBetween(int start, int end) {
+        return start + (int)Math.round(Math.random() * (end - start));
     }
 
 }

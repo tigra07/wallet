@@ -24,7 +24,6 @@ public class SearchCriteria {
     private String sourceFilterStr;
     private String typeFilterStr;
     private String categoryFilterStr;
-    private String amountFilterStr;
 
     private SourceService sourceService;
     private CategoryService categoryService;
@@ -120,10 +119,6 @@ public class SearchCriteria {
 
     public void setCategoryFilterStr(String categoryFilterStr) {
         this.categoryFilterStr = categoryFilterStr;
-    }
-
-    public void setAmountFilterStr(String amountFilterStr) {
-        this.amountFilterStr = amountFilterStr;
     }
 
 }

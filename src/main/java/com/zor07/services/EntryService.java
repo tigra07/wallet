@@ -45,9 +45,9 @@ public class EntryService implements DomainService<Entry>{
         return Arrays.asList(EntryType.values());
     }
 
-    public Set<Entry> findAllMatchingCriteria(SearchCriteria criteria){
+    public List<Entry> findAllMatchingCriteria(SearchCriteria criteria){
         criteria.parse();
-        Set<Entry> result = new TreeSet<>();
+        List<Entry> result = new ArrayList<>();
         result.addAll(list());
         if (criteria.filterIsEmpty())
             return result;
@@ -68,36 +68,37 @@ public class EntryService implements DomainService<Entry>{
         if (dateFrom != null){
             result = result.stream()
                     .filter(e -> e.getEntryDate().compareTo(dateFrom) >= 0)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
 
         /* Filter by ToDate */
         if (dateTo != null){
             result = result.stream()
                     .filter(e -> e.getEntryDate().compareTo(dateTo) <= 0)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
 
         /* Filter by Source */
         if (sourceFilterId != null){
             result = result.stream()
                     .filter(e -> e.getSource().getId().equals(sourceFilterId))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
 
         /* Filter by EntryType */
         if (typeFilter != null){
             result = result.stream()
                     .filter(e -> e.getEntryType().equals(typeFilter))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
 
         /* Filter by Category */
         if (categoryFilterId != null){
             result =  result.stream()
                     .filter(e -> e.getCategory().getId().equals(categoryFilterId))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
+
         return result;
     }
 }

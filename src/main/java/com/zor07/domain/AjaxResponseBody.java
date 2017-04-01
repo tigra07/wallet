@@ -1,6 +1,8 @@
 package com.zor07.domain;
 
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by anzor on 22.03.17.
@@ -8,7 +10,8 @@ import java.util.Set;
 public class AjaxResponseBody {
 
     private String msg;
-    Set<Entry> entries;
+    private List<Entry> entries;
+    private BigDecimal totalAmount;
 
     public String getMsg() {
         return msg;
@@ -18,11 +21,24 @@ public class AjaxResponseBody {
         this.msg = msg;
     }
 
-    public Set<Entry> getEntries() {
+    public List<Entry> getEntries() {
         return entries;
     }
 
-    public void setEntries(Set<Entry> entries) {
+    public void setEntries(List<Entry> entries) {
+        Collections.sort(entries);
+        totalAmount = new BigDecimal(0);
+        entries.stream().forEach(entry ->
+            totalAmount.add(entry.getAmount())
+        );
         this.entries = entries;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

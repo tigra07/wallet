@@ -10,7 +10,7 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <div th:if="${not #lists.isEmpty(entries)}">
+    <div th:if="${not noEntries}">
         <h2>Entries</h2>
         <table class="table table-striped" id="entriesTable">
             <tr>
@@ -24,9 +24,9 @@
             </tr>
             <tr>
                 <td>ID</td>
-                <br>
-                    FROM: <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/> <br/>
-                    TO:   <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
+                <td>
+                    <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/>
+                    <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
                 </td>
                 <td>
                     <select id="sourceFilter" class="form-control" onchange="filter()">
@@ -49,8 +49,11 @@
 
                     </select>
                 </td>
+                <td id="totalAmount">
+
+                </td>
                 <td>
-                    <input id="amountFilter" type="text" class="form-control" onchange="filter()"/>
+                    Actions
                 </td>
                 <script th:inline="javascript">
                     $( document ).ready(function() {

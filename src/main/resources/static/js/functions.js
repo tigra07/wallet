@@ -6,7 +6,6 @@ function filter() {
     search["sourceFilterStr"]   = $("#sourceFilter").val();
     search["typeFilterStr"]     = $("#typeFilter").val();
     search["categoryFilterStr"] = $("#categoryFilter").val();
-    search["amountFilterStr"]   = $("#amountFilter").val();
 
 
     $.ajax({
@@ -32,36 +31,39 @@ function filter() {
                 var row = table.insertRow(2);
                 var cellId       = row.insertCell(0)
                 var cellDate     = row.insertCell(1);
-                var cellDate2    = row.insertCell(2);
-                var cellSource   = row.insertCell(3);
-                var cellType     = row.insertCell(4);
-                var cellCategory = row.insertCell(5);
-                var cellAmount   = row.insertCell(6);
-                var cellActions  = row.insertCell(7);
-                cellId.innerHTML       = entries[i].id;
+                var cellSource   = row.insertCell(2);
+                var cellType     = row.insertCell(3);
+                var cellCategory = row.insertCell(4);
+                var cellAmount   = row.insertCell(5);
+                var cellActions  = row.insertCell(6);
+                var id = entries[i].id
+                cellId.innerHTML       = id;
                 cellDate.innerHTML     = entries[i].entryDate;
-                cellDate2.innerHTML    = "";
                 cellSource.innerHTML   = entries[i].source.name;
                 cellType.innerHTML     = entries[i].entryType;
                 cellCategory.innerHTML = entries[i].category.name;
                 cellAmount.innerHTML   = entries[i].amount;
-
-
+                urlInCell(cellActions, "edit", id);
+                urlInCell(cellActions, "details", id);
+                urlInCell(cellActions,"delete", id);
             }
-
-            // console.log("SUCCESS : ", data);
-            // $("#btn-search").prop("disabled", false);
-
+            $('#totalAmount').val(data.totalAmount);
         },
         error: function (e) {
             alert("error");
-            // var json = "<h4>Ajax Response</h4><pre>"
-            //     + e.responseText + "</pre>";
-            // $('#feedback').html(json);
-            //
-            // console.log("ERROR : ", e);
-            // $("#btn-search").prop("disabled", false);
-
         }
     });
+
+    function urlInCell(cell, action, id) {
+        var url = "http://" + window.location.host + "/entries/" + action + "/" + id;
+
+        var createA = document.createElement('a');
+        var createAText = document.createTextNode(action);
+        createA.setAttribute('href', url);
+        createA.appendChild(createAText);
+        cell.appendChild(createA);
+
+        var space = document.createTextNode(' ');
+        cell.appendChild(space);
+    }
 }

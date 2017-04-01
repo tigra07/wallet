@@ -110,17 +110,25 @@ public class Entry implements Comparable<Entry> {
 
         Entry entry = (Entry) o;
 
-        return entry.id.equals(id);
+        boolean res = entry.entryDate.equals(entryDate);
+        res &= entry.id.equals(id);
+        return res;
 
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id.hashCode() + entryDate.hashCode();
     }
+
+
 
     @Override
     public int compareTo(Entry o) {
-        return o.getId().compareTo(id);
+        int res = o.getEntryDate().compareTo(entryDate);
+        if (res == 0){
+            res = o.id.compareTo(id);
+        }
+        return res;
     }
 }
