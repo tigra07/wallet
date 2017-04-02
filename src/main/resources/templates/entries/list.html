@@ -10,10 +10,11 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <div th:if="${not #lists.isEmpty(entries)}">
+    <div th:if="${not noEntries}">
         <h2>Entries</h2>
-        <table class="table table-striped">
+        <table class="table table-striped" id="entriesTable">
             <tr>
+                <a th:href="${'/entries/new_entry'}"> CREATE </a>
                 <th>Entry Date</th>
                 <th>Entry Source</th>
                 <th>Entry Type</th>
@@ -21,8 +22,88 @@
                 <th>Amount</th>
                 <th>Actions</th>
             </tr>
-            <tr th:each="entry : ${entries}">
-                <td th:text="${entry.entryDate}">Date</td>
+            <tr>
+                <td>
+                    <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/>
+                    <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
+                </td>
+                <td>
+                    <select id="sourceFilter" class="form-control" onchange="filter()">
+                        <option value="" selected="selected">Select to Filter..</option>
+                        <option th:each="s : ${sources}"
+                                th:value="${s.id}"
+                                th:text="${s.name}">Source</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="typeFilter" class="form-control" onchange="toggleCategories()">
+                        <option value="" selected="selected">Select to Filter..</option>
+                        <option th:each="type : ${entryTypes}"
+                                th:value="${type.name}"
+                                th:text="${type.name}">Entry Type</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="categoryFilter" class="form-control" onchange="filter()">
+
+                    </select>
+                </td>
+                <td>
+                    <b><p id="totalIncome" style="color: green"></p></b>
+                    <b><p id="totalOutcome" style="color: darkred"></p></b>
+                    <b><p id="balance" style="color: cornflowerblue"></p></b>
+                </td>
+                <td>
+                    Actions
+                </td>
+                <script th:inline="javascript">
+                    $( document ).ready(function() {
+                        /*<![CDATA[*/
+                        var categoriesArray = [[${categories}]];
+                        var options = "<option value='' selected='selected'>Select to Filter..</option>";
+
+                        for (var i = 0; i < categoriesArray.length; i++){
+                            if (($('#typeFilter').val() != "") && categoriesArray[i].type.$name == $('#typeFilter').val()){
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            } else {
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            }
+                        }
+                        $('#categoryFilter').html(options);
+                        filter();
+                        /*]]>*/
+                    });
+
+                    function toggleCategories() {
+                        /*<![CDATA[*/
+                        var typeFilter = $('#typeFilter').val();
+                        var categoriesArray = [[${categories}]];
+                        var options = "<option value='' selected='selected'>Select to Filter..</option>";
+                        if  (typeFilter != "") {
+                            for (var i = 0; i < categoriesArray.length; i++){
+                                var categoryTypeName = categoriesArray[i].type.$name;
+                                if (categoryTypeName == typeFilter){
+                                    options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                                }
+                            }
+                        } else {
+                            for (var i = 0; i < categoriesArray.length; i++){
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            }
+                        }
+
+                        $('#categoryFilter').html(options);
+                        /*]]>*/
+                        filter();
+                    }
+                </script>
+
+            </tr>
+            <tr id="entries">
+
+            </tr>
+            <!--tr th:each="entry : ${entries}">
+                <td th:text="${entry.entryDate}" colspan="2">Date</td>
                 <td th:text="${entry.source}">Source</td>
                 <td th:text="${entry.entryType}">Type</td>
                 <td th:text="${entry.category}">Category</td>
@@ -34,12 +115,9 @@
                         <li><a th:href="${'/entries/delete/' + entry.id}">Delete</a></li>
                     </ul>
                 </td>
-            </tr>
+            </tr-->
         </table>
     </div>
-
-    <a th:href="${'/entries/new_entry'}">Create entry</a>
-
 </div>
 </body>
 </html>

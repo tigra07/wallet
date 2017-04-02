@@ -52,4 +52,16 @@ public class Source {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null){
+            return false;
+        }
+        if (!Source.class.isAssignableFrom(object.getClass())){
+            return false;
+        }
+        final Source source = (Source) object;
+        return id.equals(source.id);
+    }
 }
