@@ -14,7 +14,7 @@
     category
     amount
     -->
-    <h2>New Income Entry</h2>
+    <h2>New Entry</h2>
     <div>
         <form class="form-horizontal" th:object="${entry}" th:action="@{/entries/save}" method="post">
             <input type="hidden" th:field="*{id}"/>
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Source:</label>
                 <div class="col-sm-10">
-                    <select th:field="*{source}" th:required="required" id="sources">
+                    <select th:field="*{source}"  id="sources" class="form-control">
                         <option th:each="s : ${sources}"
                                 th:value="${s.id}"
                                 th:text="${s.name}">Source</option>
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Entry Type:</label>
                 <div class="col-sm-10">
-                    <select th:field="*{entryType}" th:required="required"  id="entryType" onclick="toggleCategories()">
+                    <select th:field="*{entryType}" th:required="required"  id="entryType" onclick="toggleCategories()" class="form-control">
                         <option th:each="type : ${entryType}"
                                 th:value="${type.name}"
                                 th:text="${type.name}">Entry Type</option>
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Category:</label>
                 <div class="col-sm-10">
-                    <select th:field="*{category}" th:required="required" id="categories">
+                    <select th:field="*{category}" th:required="required" id="categories" class="form-control">
 
                     </select>
                 </div>
