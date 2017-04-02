@@ -118,7 +118,9 @@ public class Entry implements Comparable<Entry> {
 
     @Override
     public int hashCode() {
-        return id.hashCode() + entryDate.hashCode();
+        return id == null || entryDate == null
+            ? super.hashCode()
+            : id.hashCode() + entryDate.hashCode();
     }
 
 

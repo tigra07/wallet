@@ -93,7 +93,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
                     e.setSource(source1);
                     break;
             }
-            e.setAmount(new BigDecimal((i + j) * 3 + 13));
+            e.setAmount(new BigDecimal(randBetween(12, 100)));
             entryRepo.save(e);
         }
     }

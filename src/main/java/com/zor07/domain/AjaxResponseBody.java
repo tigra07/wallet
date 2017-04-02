@@ -11,7 +11,9 @@ public class AjaxResponseBody {
 
     private String msg;
     private List<Entry> entries;
-    private BigDecimal totalAmount;
+    private BigDecimal totalIncome;
+    private BigDecimal totalOutcome;
+    private BigDecimal balance;
 
     public String getMsg() {
         return msg;
@@ -27,18 +29,40 @@ public class AjaxResponseBody {
 
     public void setEntries(List<Entry> entries) {
         Collections.sort(entries);
-        totalAmount = new BigDecimal(0);
-        entries.stream().forEach(entry ->
-            totalAmount.add(entry.getAmount())
-        );
+        totalIncome = new BigDecimal(0);
+        totalOutcome = new BigDecimal(0);
+        entries.stream().forEach(entry -> {
+            if (entry.getEntryType() == EntryType.INCOME){
+                totalIncome = totalIncome.add(entry.getAmount());
+            } else {
+                totalOutcome = totalOutcome.add(entry.getAmount());
+            }
+        });
+        balance = totalIncome.subtract(totalOutcome);
         this.entries = entries;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public BigDecimal getTotalIncome() {
+        return totalIncome;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalIncome(BigDecimal totalIncome) {
+        this.totalIncome = totalIncome;
+    }
+
+    public BigDecimal getTotalOutcome() {
+        return totalOutcome;
+    }
+
+    public void setTotalOutcome(BigDecimal totalOutcome) {
+        this.totalOutcome = totalOutcome;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

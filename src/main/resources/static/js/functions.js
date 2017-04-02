@@ -29,25 +29,27 @@ function filter() {
             }
             for (var i = 0; i < entries.length; i++){
                 var row = table.insertRow(2);
-                var cellId       = row.insertCell(0)
-                var cellDate     = row.insertCell(1);
-                var cellSource   = row.insertCell(2);
-                var cellType     = row.insertCell(3);
-                var cellCategory = row.insertCell(4);
-                var cellAmount   = row.insertCell(5);
-                var cellActions  = row.insertCell(6);
-                var id = entries[i].id
-                cellId.innerHTML       = id;
+                var cellDate     = row.insertCell(0);
+                var cellSource   = row.insertCell(1);
+                var cellType     = row.insertCell(2);
+                var cellCategory = row.insertCell(3);
+                var cellAmount   = row.insertCell(4);
+                var cellActions  = row.insertCell(5);
+
                 cellDate.innerHTML     = entries[i].entryDate;
                 cellSource.innerHTML   = entries[i].source.name;
                 cellType.innerHTML     = entries[i].entryType;
                 cellCategory.innerHTML = entries[i].category.name;
                 cellAmount.innerHTML   = entries[i].amount;
+
+                var id = entries[i].id
                 urlInCell(cellActions, "edit", id);
                 urlInCell(cellActions, "details", id);
                 urlInCell(cellActions,"delete", id);
             }
-            $('#totalAmount').val(data.totalAmount);
+            $("#totalIncome").html(data.totalIncome);
+            $("#totalOutcome").html(data.totalOutcome);
+            $("#balance").html(data.balance);
         },
         error: function (e) {
             alert("error");

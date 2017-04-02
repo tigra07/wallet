@@ -14,7 +14,7 @@
         <h2>Entries</h2>
         <table class="table table-striped" id="entriesTable">
             <tr>
-                <th>ID</th>>
+                <a th:href="${'/entries/new_entry'}"> CREATE </a>
                 <th>Entry Date</th>
                 <th>Entry Source</th>
                 <th>Entry Type</th>
@@ -23,7 +23,6 @@
                 <th>Actions</th>
             </tr>
             <tr>
-                <td>ID</td>
                 <td>
                     <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/>
                     <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
@@ -49,8 +48,10 @@
 
                     </select>
                 </td>
-                <td id="totalAmount">
-
+                <td>
+                    <b><p id="totalIncome" style="color: green"></p></b>
+                    <b><p id="totalOutcome" style="color: darkred"></p></b>
+                    <b><p id="balance" style="color: cornflowerblue"></p></b>
                 </td>
                 <td>
                     Actions
@@ -74,27 +75,25 @@
                     });
 
                     function toggleCategories() {
-                        $('#typeFilter').change(function () {
-                            /*<![CDATA[*/
-                            var typeFilter = $('#typeFilter').val();
-                            var categoriesArray = [[${categories}]];
-                            var options = "<option value='' selected='selected'>Select to Filter..</option>";
-                            if  (typeFilter != "") {
-                                for (var i = 0; i < categoriesArray.length; i++){
-                                    var categoryTypeName = categoriesArray[i].type.$name;
-                                    if (categoryTypeName == typeFilter){
-                                        options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
-                                    }
-                                }
-                            } else {
-                                for (var i = 0; i < categoriesArray.length; i++){
+                        /*<![CDATA[*/
+                        var typeFilter = $('#typeFilter').val();
+                        var categoriesArray = [[${categories}]];
+                        var options = "<option value='' selected='selected'>Select to Filter..</option>";
+                        if  (typeFilter != "") {
+                            for (var i = 0; i < categoriesArray.length; i++){
+                                var categoryTypeName = categoriesArray[i].type.$name;
+                                if (categoryTypeName == typeFilter){
                                     options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
                                 }
                             }
+                        } else {
+                            for (var i = 0; i < categoriesArray.length; i++){
+                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                            }
+                        }
 
-                            $('#categoryFilter').html(options);
-                            /*]]>*/
-                        });
+                        $('#categoryFilter').html(options);
+                        /*]]>*/
                         filter();
                     }
                 </script>
@@ -119,9 +118,6 @@
             </tr-->
         </table>
     </div>
-
-    <a th:href="${'/entries/new_entry'}">Create entry</a>
-
 </div>
 </body>
 </html>
