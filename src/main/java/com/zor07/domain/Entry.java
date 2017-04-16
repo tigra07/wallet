@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-public class Entry {
+public class Entry implements Comparable<Entry> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -101,5 +101,36 @@ public class Entry {
                 ", category=" + category +
                 ", amount=" + amount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Entry entry = (Entry) o;
+
+        boolean res = entry.entryDate.equals(entryDate);
+        res &= entry.id.equals(id);
+        return res;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id == null || entryDate == null
+            ? super.hashCode()
+            : id.hashCode() + entryDate.hashCode();
+    }
+
+
+
+    @Override
+    public int compareTo(Entry o) {
+        int res = o.getEntryDate().compareTo(entryDate);
+        if (res == 0){
+            res = o.id.compareTo(id);
+        }
+        return res;
     }
 }
