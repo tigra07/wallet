@@ -7,7 +7,7 @@ import java.sql.Date;
 @Entity
 public class Entry implements Comparable<Entry> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Version

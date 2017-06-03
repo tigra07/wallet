@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"type", "name"})})
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Version

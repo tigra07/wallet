@@ -21,9 +21,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private CategoryRepository categoryRepository;
     private SourceRepository  sourceRepository;
     private EntryRepository entryRepo;
-    private Source source;
-    private Source source1;
-    private Source source2;
+    int count = 0;
 
     @Autowired
     public void setEntryRepo(EntryRepository entryRepo) {
@@ -42,57 +40,49 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        source = new Source();
+        Source source = new Source();
         source.setName("Сбербанк");
         source.setDescription("Дебетовая карта");
         sourceRepository.save(source);
+        createEntries(source);
 
-        source1 = new Source();
+
+        Source source1 = new Source();
         source1.setName("ВТБ24");
         source1.setDescription("Дебетовая карта");
         sourceRepository.save(source1);
+        createEntries(source1);
 
-        source2 = new Source();
+
+        Source source2 = new Source();
         source2.setName("Тинькофф");
         source2.setDescription("Дебетовая карта");
         sourceRepository.save(source2);
+        createEntries(source2);
+    }
 
+    private void createEntries(Source source){
         for (int i = 1; i < 10; i++) {
+            count ++ ;
             Category category = new Category();
-            category.setType(EntryType.INCOME);
-            category.setName("income_" + i);
+            EntryType eType = i % 2 == 0 ? EntryType.INCOME : EntryType.OUTCOME;
+            category.setType(eType);
+
+            String eTypeName = eType == EntryType.INCOME ? "income_" : "outcome_";
+            category.setName(eTypeName + count);
             category.setRating(i);
             categoryRepository.save(category);
-            createEntries(i, category);
-        }
-
-        for (int i = 1; i < 10; i++) {
-            Category category = new Category();
-            category.setType(EntryType.OUTCOME);
-            category.setName("outcome_" + i);
-            category.setRating(i);
-            categoryRepository.save(category);
-            createEntries(i, category);
+            createEntries(i, category, source);
         }
     }
 
-    private void createEntries(int i, Category category){
+    private void createEntries(int i, Category category, Source source){
         for (int j = 0; j < 4; j++) {
             Entry e = new Entry();
             e.setEntryDate(getRandDate());
             e.setEntryType(category.getType());
             e.setCategory(category);
-            switch (i % 3){
-                case 0:
-                    e.setSource(source2);
-                    break;
-                case 1:
-                    e.setSource(source);
-                    break;
-                case 2:
-                    e.setSource(source1);
-                    break;
-            }
+            e.setSource(source);
             e.setAmount(new BigDecimal(randBetween(12, 100)));
             entryRepo.save(e);
         }
