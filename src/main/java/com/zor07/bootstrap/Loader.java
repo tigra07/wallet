@@ -1,45 +1,51 @@
 package com.zor07.bootstrap;
 
-import com.zor07.domain.Category;
-import com.zor07.domain.Entry;
-import com.zor07.domain.EntryType;
-import com.zor07.domain.Source;
-import com.zor07.repositories.CategoryRepository;
-import com.zor07.repositories.EntryRepository;
-import com.zor07.repositories.SourceRepository;
+import com.zor07.domain.*;
+import com.zor07.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private CategoryRepository categoryRepository;
     private SourceRepository  sourceRepository;
     private EntryRepository entryRepo;
-    int count = 0;
-
-    @Autowired
-    public void setEntryRepo(EntryRepository entryRepo) {
-        this.entryRepo = entryRepo;
-    }
-
-    @Autowired
-    public void setSourceRepository(SourceRepository sourceRepository) {
-        this.sourceRepository = sourceRepository;
-    }
+    private UserRepository userRepo;
 
     @Autowired
     public void setCategoryRepository(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
+    @Autowired
+    public void setSourceRepository(SourceRepository sourceRepository) {
+        this.sourceRepository = sourceRepository;
+    }
+    @Autowired
+    public void setEntryRepo(EntryRepository entryRepo) {
+        this.entryRepo = entryRepo;
+    }
+    @Autowired
+    public void setUserRepo(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    int count = 0;
+
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        createUsers();
+        createSources();
+    }
+
+    private void createSources() {
         Source source = new Source();
         source.setName("Сбербанк");
         source.setDescription("Дебетовая карта");
@@ -59,6 +65,29 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         source2.setDescription("Дебетовая карта");
         sourceRepository.save(source2);
         createEntries(source2);
+    }
+
+    private void createUsers() {
+        User user = new User();
+
+        user.setAuthorities(Arrays.asList(Role.values()));
+        user.setUsername("zor");
+        user.setPassword(new BCryptPasswordEncoder().encode("pass11"));
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
+        userRepo.save(user);
+
+        User user2 = new User();
+        user2.setAuthorities(Arrays.asList(Role.values()));
+        user2.setUsername("user");
+        user2.setPassword("pass22");
+        user2.setAccountNonExpired(true);
+        user2.setAccountNonLocked(true);
+        user2.setCredentialsNonExpired(true);
+        user2.setEnabled(true);
+        userRepo.save(user2);
     }
 
     private void createEntries(Source source){

@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
           rel="stylesheet" media="screen"/>
@@ -10,6 +12,15 @@
             th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
     <script th:src="@{/js/functions.js}"></script>
+    <script>
+        $(function () {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+        });
+    </script>
 </head>
 <body>
 
