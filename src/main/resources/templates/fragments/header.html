@@ -12,15 +12,6 @@
             th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
     <script th:src="@{/js/functions.js}"></script>
-    <script>
-        $(function () {
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function(e, xhr, options) {
-                xhr.setRequestHeader(header, token);
-            });
-        });
-    </script>
 </head>
 <body>
 

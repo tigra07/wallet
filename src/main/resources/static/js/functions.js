@@ -1,5 +1,5 @@
 /** Create js functions here*/
-function filter() {
+function filter(header, token) {
     var search = {}
     search["dateFromFilterStr"] = $("#dateFromFilter").val();
     search["dateToFilterStr"]   = $("#dateToFilter").val();
@@ -19,6 +19,8 @@ function filter() {
         dataType: 'json',
         cache: false,
         timeout: 600000,
+
+        beforeSend: function(xhr){xhr.setRequestHeader(header, token);},
 
         success: function (data) {
             var entries = data.entries;

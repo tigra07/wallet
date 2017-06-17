@@ -72,7 +72,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
         user.setAuthorities(Arrays.asList(Role.values()));
         user.setUsername("zor");
-        user.setPassword(new BCryptPasswordEncoder().encode("pass11"));
+        user.setPassword("pass11");
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
