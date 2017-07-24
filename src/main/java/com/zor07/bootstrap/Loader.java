@@ -1,16 +1,19 @@
 package com.zor07.bootstrap;
 
 import com.zor07.domain.*;
-import com.zor07.repositories.*;
+import com.zor07.repositories.CategoryRepository;
+import com.zor07.repositories.EntryRepository;
+import com.zor07.repositories.SourceRepository;
+import com.zor07.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.*;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent>{
@@ -71,8 +74,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         User user = new User();
 
         user.setAuthorities(Arrays.asList(Role.values()));
-        user.setUsername("zor");
-        user.setPassword("pass11");
+        user.setUsername("root");
+        user.setPassword("root");
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);

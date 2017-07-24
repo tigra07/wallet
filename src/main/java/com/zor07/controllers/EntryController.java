@@ -69,7 +69,6 @@ public class EntryController {
 
     @RequestMapping(value = "/entries/save", method = RequestMethod.POST)
     public String saveEntry(Entry entry){
-        System.out.println(entry);
         entryService.save(entry);
         return "redirect:/entries/list";
     }
