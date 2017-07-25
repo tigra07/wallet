@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration //tells the Spring Framework this is a Java configuration class.
+
 @EnableAutoConfiguration
 // tells Spring Boot to do its auto configuration magic. This is what has Spring Boot automatically create the Spring Beans with sensible defaults for our tests.
 @EntityScan(basePackages = {"com.zor07.domain"}) //specifies the packages to look for JPA Entities.

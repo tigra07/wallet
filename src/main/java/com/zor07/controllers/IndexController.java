@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/")
+    @RequestMapping({"/", "/home"})
     public String index(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
-        model.addAttribute("username", name);
+        String greeting = String.format("Welcome to your wallet, master %s", name);
+        model.addAttribute("greeting", greeting);
 
         return "index";
     }

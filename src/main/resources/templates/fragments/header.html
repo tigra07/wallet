@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
+<head lang="en" th:fragment="head">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-
-
     <!--<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"-->
-          <!--th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"-->
-          <!--rel="stylesheet" media="screen"/>-->
+    <!--th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"-->
+    <!--rel="stylesheet" media="screen" />-->
 
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
             th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
@@ -22,8 +20,6 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
-    <script th:src="@{/js/functions.js}"></script>
 </head>
 <body>
 
@@ -37,6 +33,7 @@
                         <li><a href="#" th:href="@{/sources/list}">Sources</a></li>
                         <li><a href="#" th:href="@{/categories/list}">Categories</a></li>
                         <li><a href="#" th:href="@{/entries/list}">Entries</a></li>
+                        <li><a href="#" th:href="@{/logout}">Logout</a></li>
                     </ul>
                 </div>
             </div>
