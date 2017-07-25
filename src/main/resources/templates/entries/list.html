@@ -9,12 +9,11 @@
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-
+    <a th:href="${'/entries/new_entry'}"> CREATE </a>
     <div th:if="${not noEntries}">
         <h2>Entries</h2>
         <table class="table table-striped" id="entriesTable">
             <tr>
-                <a th:href="${'/entries/new_entry'}"> CREATE </a>
                 <th>Entry Date</th>
                 <th>Entry Source</th>
                 <th>Entry Type</th>

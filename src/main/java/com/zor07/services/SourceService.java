@@ -1,12 +1,13 @@
 package com.zor07.services;
 
 import com.zor07.domain.Source;
+import com.zor07.domain.User;
 import com.zor07.repositories.SourceRepository;
-import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SourceService implements DomainService<Source>{
@@ -18,8 +19,10 @@ public class SourceService implements DomainService<Source>{
     }
 
     @Override
-    public List<Source> list() {
-        return repository.findAll();
+    public List<Source> list(User user) {
+        return repository.findAll().stream()
+                .filter(category -> user.equals(category.getUser()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -37,10 +40,4 @@ public class SourceService implements DomainService<Source>{
         repository.delete(id);
     }
 
-    public Source findByName(String name){
-        for (Source source : list()){
-            if (source.getName().equals(name)) return source;
-        }
-        return null;
-    }
 }

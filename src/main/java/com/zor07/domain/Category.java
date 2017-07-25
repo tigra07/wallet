@@ -12,6 +12,10 @@ public class Category {
     @Version
     private Integer version;
 
+    @JoinColumn
+    @ManyToOne
+    private User user;
+
     @Enumerated(EnumType.STRING)
     private EntryType type;
 
@@ -60,6 +64,14 @@ public class Category {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

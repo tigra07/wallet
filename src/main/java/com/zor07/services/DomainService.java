@@ -1,9 +1,11 @@
 package com.zor07.services;
 
+import com.zor07.domain.User;
+
 import java.util.List;
 
 public interface DomainService<T> {
-    List<T> list();
+    List<T> list(User user);
 
     T getById(Integer id);
 

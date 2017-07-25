@@ -21,6 +21,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private SourceRepository  sourceRepository;
     private EntryRepository entryRepo;
     private UserRepository userRepo;
+    private static int userCount;
+    private static int sourceCount;
 
     @Autowired
     public void setCategoryRepository(CategoryRepository categoryRepository) {
@@ -41,60 +43,47 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
     int count = 0;
 
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        createUsers();
-        createSources();
+        for (int j = 0; j < 3; j++) {
+            User user = createUser();
+            for (int i = 0; i < 2; i++) {
+                Source source = createSource(user);
+                createEntries(user, source);
+            }
+        }
+        createUser();
     }
 
-    private void createSources() {
-        Source source = new Source();
-        source.setName("Сбербанк");
-        source.setDescription("Дебетовая карта");
-        sourceRepository.save(source);
-        createEntries(source);
 
-
-        Source source1 = new Source();
-        source1.setName("ВТБ24");
-        source1.setDescription("Дебетовая карта");
-        sourceRepository.save(source1);
-        createEntries(source1);
-
-
-        Source source2 = new Source();
-        source2.setName("Тинькофф");
-        source2.setDescription("Дебетовая карта");
-        sourceRepository.save(source2);
-        createEntries(source2);
-    }
-
-    private void createUsers() {
+    private User createUser(){
+        sourceCount = 0;
         User user = new User();
 
         user.setAuthorities(Arrays.asList(Role.values()));
-        user.setUsername("root");
-        user.setPassword("root");
+        user.setUsername(String.format("User_%d", ++userCount));
+        user.setPassword("pass" + userCount);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
         user.setEnabled(true);
         userRepo.save(user);
-
-        User user2 = new User();
-        user2.setAuthorities(Arrays.asList(Role.values()));
-        user2.setUsername("user");
-        user2.setPassword("pass22");
-        user2.setAccountNonExpired(true);
-        user2.setAccountNonLocked(true);
-        user2.setCredentialsNonExpired(true);
-        user2.setEnabled(true);
-        userRepo.save(user2);
+        return user;
     }
 
-    private void createEntries(Source source){
-        for (int i = 1; i < 10; i++) {
+
+    private Source createSource(User user){
+        sourceCount ++;
+        Source source = new Source();
+        source.setName(user.getUsername() + " debit card " + sourceCount);
+        source.setDescription("Дебетовая карта");
+        source.setUser(user);
+        sourceRepository.save(source);
+        return source;
+    }
+
+    private void createEntries(User user, Source source){
+        for (int i = 1; i < 5; i++) {
             count ++ ;
             Category category = new Category();
             EntryType eType = i % 2 == 0 ? EntryType.INCOME : EntryType.OUTCOME;
@@ -102,15 +91,17 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
             String eTypeName = eType == EntryType.INCOME ? "income_" : "outcome_";
             category.setName(eTypeName + count);
+            category.setUser(user);
             category.setRating(i);
             categoryRepository.save(category);
-            createEntries(i, category, source);
+            createEntries(category, source, user);
         }
     }
 
-    private void createEntries(int i, Category category, Source source){
+    private void createEntries(Category category, Source source, User user){
         for (int j = 0; j < 4; j++) {
             Entry e = new Entry();
+            e.setUser(user);
             e.setEntryDate(getRandDate());
             e.setEntryType(category.getType());
             e.setCategory(category);
