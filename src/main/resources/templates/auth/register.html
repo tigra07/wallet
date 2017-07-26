@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Login</title>
+
+    <!--/*/ <th:block th:include="fragments/header:: head"></th:block> /*/-->
+    <script >
+        /*<![CDATA[*/
+        function checkPasswords() {
+//            alert($("#passwordConfirm").val());
+//            alert($("#password").val());
+
+            if ($("#passwordConfirm").val() != '' && !$("#passwordConfirm").val().equals($("#password").val())){
+                $("#passwordsAlert").show();
+            } else {
+                $("#passwordsAlert").hide();
+            }
+        }
+        /*]]>*/
+    </script>
+</head><script th:src="@{/js/functions.js}"></script>
+<body>
+<div class="container">
+
+
+    <h2>Register</h2>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Type your username and password</h3>
+            </div>
+            <div class="panel-body">
+                <div th:if="${userexists}" class="alert alert-danger" role="alert">Username already exists!</div>
+                <div  id="passwordsAlert" class="alert alert-danger" role="alert" style="display: none">Passwords should be identical!</div>
+
+                <form th:action="@{/register}"  method="post">
+                    <!--<input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>-->
+                    <!--<input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>-->
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Username" name="username" required="required"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password" name="password" required="required"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Confirm Password</label>
+                        <input type="password" class="form-control" id="passwordConfirm" placeholder="Confirm Password" onchange="checkPasswords()" required="required"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-default">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

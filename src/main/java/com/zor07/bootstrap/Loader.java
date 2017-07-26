@@ -53,9 +53,6 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
             }
         }
         createUser();
-        //Этот класс создает предварительные данные когда я запускаю приложение
-        //Справа - БД
-
     }
 
 
@@ -66,11 +63,6 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         user.setAuthorities(Arrays.asList(Role.values()));
         user.setUsername(String.format("User_%d", ++userCount));
         user.setPassword("pass" + userCount);
-        //Здесь есть статическая переменная - счетчик пользователей
-        //Пароль пользователя - pass + номер пользователя (счетчик)
-        //Но у меня в бд все безопасно хранится, в зашифрованном виде
-        //В каждой таблице ссылка на номер пользователя
-
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);

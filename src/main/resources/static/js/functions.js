@@ -71,3 +71,4 @@ function filter(header, token) {
         cell.appendChild(space);
     }
 }
+

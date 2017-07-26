@@ -1,5 +1,6 @@
 package com.zor07.services;
 
+import com.zor07.domain.Role;
 import com.zor07.domain.User;
 import com.zor07.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -52,5 +54,27 @@ public class UserService implements UserDetailsService {
         String name = auth.getName(); //get logged in username
         User user = (User) loadUserByUsername(name);
         return user;
+    }
+
+    public User save(String username, String password){
+        User user = new User();
+
+        user.setAuthorities(Arrays.asList(Role.values()));
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
+        repository.save(user);
+        return user;
+    }
+
+    public boolean userExists(String username){
+        for (User user : list()){
+            if (user.getUsername().equals(username))
+                return true;
+        }
+        return false;
     }
 }
