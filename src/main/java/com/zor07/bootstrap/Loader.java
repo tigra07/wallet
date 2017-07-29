@@ -63,6 +63,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         user.setAuthorities(Arrays.asList(Role.values()));
         user.setUsername(String.format("User_%d", ++userCount));
         user.setPassword("pass" + userCount);
+        user.setEmail(String.format("user_%d@email.com", userCount));
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);

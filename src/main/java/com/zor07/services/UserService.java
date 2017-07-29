@@ -2,7 +2,9 @@ package com.zor07.services;
 
 import com.zor07.domain.Role;
 import com.zor07.domain.User;
+import com.zor07.domain.dto.UserDto;
 import com.zor07.repositories.UserRepository;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,25 +58,26 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User save(String username, String password){
-        User user = new User();
+    public boolean userWithEmailExists(@NotNull @NotEmpty String email){
+        for (User user : list()){
+            if (email.equals(user.getEmail()))
+                return true;
+        }
 
+        return false;
+    }
+
+    public User createUser(UserDto userDto){
+        User user = new User();
         user.setAuthorities(Arrays.asList(Role.values()));
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(userDto.getUserName());
+        user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
         user.setEnabled(true);
         repository.save(user);
         return user;
-    }
-
-    public boolean userExists(String username){
-        for (User user : list()){
-            if (user.getUsername().equals(username))
-                return true;
-        }
-        return false;
     }
 }

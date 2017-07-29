@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames={"username"})})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames={"username"}), @UniqueConstraint(columnNames = {"email"})})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private List<Role> authorities;
     private String password;
     private String username;
+    private String email;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
@@ -42,6 +43,10 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -90,6 +95,10 @@ public class User implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
