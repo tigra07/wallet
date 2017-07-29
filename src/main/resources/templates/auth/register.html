@@ -2,9 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Login</title>
+    <title>Register</title>
 
-</head><script th:src="@{/js/functions.js}"></script>
+    <!--/*/ <th:block th:include="fragments/header:: head"></th:block> /*/-->
+
+</head>
 <body>
 <div class="container">
 
@@ -19,20 +21,29 @@
                 <ul>
                     <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
                 </ul>
-                <form th:action="@{/register}" th:object="userForm" method="post">
+                <form th:action="@{/register}" th:object="${userForm}" method="post">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{name}" th:required="required"/>
+                        <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{username}" th:required="required"/>
+                        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger" role="alert">Error</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Email</label>
+                        <input type="password" class="form-control" id="email" placeholder="Email" th:field="*{email}" th:required="required"/>
+                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">Error</div>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" placeholder="Password" th:field="*{password}" th:required="required"/>
+                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger" role="alert">Error</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Confirm Password</label>matchingPassword
-                        <input type="password" class="form-control" id="passwordConfirm" placeholder="Confirm Password" th:field="*{matchingPassword}" th:required="required"/>
+                        <label for="matchingPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="matchingPassword" placeholder="Confirm Password" th:field="*{matchingPassword}" th:required="required"/>
+                        <div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" class="alert alert-danger" role="alert">Error</div>
                     </div>
 
                     <button type="submit" class="btn btn-default">Register</button>

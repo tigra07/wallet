@@ -67,10 +67,18 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    public boolean userExists(@NotNull @NotEmpty String username) {
+        for (User user : list()){
+            if (user.getUsername().equals(username))
+                return true;
+        }
+        return false;
+    }
+
     public User createUser(UserDto userDto){
         User user = new User();
         user.setAuthorities(Arrays.asList(Role.values()));
-        user.setUsername(userDto.getUserName());
+        user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
         user.setAccountNonExpired(true);

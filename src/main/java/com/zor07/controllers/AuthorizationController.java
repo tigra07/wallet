@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthorizationController {
     private UserService userService;
     private UserValidator userValidator;
-    private SecurityServiceImpl securityService;
+    private SecurityServiceImpl securityServiceImpl;
 
     @Autowired
-    public void setSecurityService(SecurityServiceImpl securityService) {
-        this.securityService = securityService;
+    public void setSecurityServiceImpl(SecurityServiceImpl securityServiceImpl) {
+        this.securityServiceImpl = securityServiceImpl;
     }
 
     @Autowired
@@ -55,12 +55,13 @@ public class AuthorizationController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
+
             return "auth/register";
         }
 
         userService.createUser(userForm);
 
-        securityService.autologin(userForm.getUserName(), userForm.getMatchingPassword());
+        securityServiceImpl.autologin(userForm.getUsername(), userForm.getMatchingPassword());
 
         return "redirect:/home";
     }
