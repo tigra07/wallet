@@ -6,10 +6,16 @@ import javax.persistence.*;
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Source {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Version
     private Integer version;
+
+    @JoinColumn
+    @ManyToOne
+    private User user;
+
     private String name;
     private String description;
 
@@ -46,6 +52,14 @@ public class Source {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.zor07.controllers;
 
 import com.zor07.domain.Source;
+import com.zor07.domain.User;
 import com.zor07.services.SourceService;
+import com.zor07.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SourceController {
     private SourceService service;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setService(SourceService service) {
@@ -20,7 +28,8 @@ public class SourceController {
 
     @RequestMapping("/sources/list")
     public String list(Model model){
-        model.addAttribute("sources", service.list());
+        User currentUser = userService.getCurrentLoggedInUser();
+        model.addAttribute("sources", service.list(currentUser));
         return "/sources/list";
     }
 
@@ -38,6 +47,7 @@ public class SourceController {
 
     @RequestMapping(value = "/sources/save", method = RequestMethod.POST)
     public String saveSource(Source source){
+        source.setUser(userService.getCurrentLoggedInUser());
         service.save(source);
         return "redirect:/sources/list";
     }

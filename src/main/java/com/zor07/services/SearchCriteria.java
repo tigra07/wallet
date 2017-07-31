@@ -4,6 +4,10 @@ import com.zor07.bootstrap.ApplicationContextHolder;
 import com.zor07.domain.Category;
 import com.zor07.domain.EntryType;
 import com.zor07.domain.Source;
+import com.zor07.domain.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +17,7 @@ import java.text.SimpleDateFormat;
  */
 public class SearchCriteria {
 
+    private User userFilter;
     private Date dateFromFilter;
     private Date dateToFilter;
     private Source sourceFilter;
@@ -27,6 +32,7 @@ public class SearchCriteria {
 
     private SourceService sourceService;
     private CategoryService categoryService;
+    private UserService userService;
 
     public SearchCriteria() {
     }
@@ -37,6 +43,9 @@ public class SearchCriteria {
         }
         if (categoryService == null){
             categoryService = ApplicationContextHolder.getContext().getBean(CategoryService.class);
+        }
+        if (userService == null){
+            userService = ApplicationContextHolder.getContext().getBean(UserService.class);
         }
         dateFromFilter = "".equals(dateFromFilterStr)
                 ? null
@@ -59,6 +68,9 @@ public class SearchCriteria {
                 ? null
                 : categoryService.getById(Integer.parseInt(categoryFilterStr));
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        userFilter = (User) userService.loadUserByUsername(name);
     }
 
     boolean filterIsEmpty(){
@@ -99,6 +111,14 @@ public class SearchCriteria {
 
     public Category getCategoryFilter() {
         return categoryFilter;
+    }
+
+    public User getUserFilter() {
+        return userFilter;
+    }
+
+    public void setUserFilter(User userFilter) {
+        this.userFilter = userFilter;
     }
 
     public void setDateFromFilterStr(String dateFromFilterStr) {
