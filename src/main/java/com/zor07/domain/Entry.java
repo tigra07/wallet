@@ -7,11 +7,15 @@ import java.sql.Date;
 @Entity
 public class Entry implements Comparable<Entry> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Version
     private Integer version;
+
+    @JoinColumn
+    @ManyToOne
+    private User user;
 
     private Date entryDate;
 
@@ -91,14 +95,24 @@ public class Entry implements Comparable<Entry> {
         this.source = source;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Entry{" +
                 "id=" + id +
                 ", version=" + version +
+                ", user=" + user +
                 ", entryDate=" + entryDate +
                 ", entryType=" + entryType +
                 ", category=" + category +
+                ", source=" + source +
                 ", amount=" + amount +
                 '}';
     }

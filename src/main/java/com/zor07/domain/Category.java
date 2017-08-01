@@ -6,11 +6,15 @@ import javax.persistence.*;
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"type", "name"})})
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Version
     private Integer version;
+
+    @JoinColumn
+    @ManyToOne
+    private User user;
 
     @Enumerated(EnumType.STRING)
     private EntryType type;
@@ -60,6 +64,14 @@ public class Category {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

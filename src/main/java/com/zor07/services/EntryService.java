@@ -21,8 +21,10 @@ public class EntryService implements DomainService<Entry>{
     }
 
     @Override
-    public List<Entry> list() {
-        return repository.findAll();
+    public List<Entry> list(User user) {
+        return repository.findAll().stream()
+                .filter(category -> user.equals(category.getUser()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -48,7 +50,7 @@ public class EntryService implements DomainService<Entry>{
     public List<Entry> findAllMatchingCriteria(SearchCriteria criteria){
         criteria.parse();
         List<Entry> result = new ArrayList<>();
-        result.addAll(list());
+        result.addAll(list(criteria.getUserFilter()));
         if (criteria.filterIsEmpty())
             return result;
 

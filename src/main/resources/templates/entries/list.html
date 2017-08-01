@@ -4,17 +4,17 @@
 
     <title>Entries</title>
 
-    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+    <script th:src="@{/js/functions.js}"></script>
 </head>
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-
+    <a th:href="${'/entries/new_entry'}"> CREATE </a>
     <div th:if="${not noEntries}">
         <h2>Entries</h2>
         <table class="table table-striped" id="entriesTable">
             <tr>
-                <a th:href="${'/entries/new_entry'}"> CREATE </a>
                 <th>Entry Date</th>
                 <th>Entry Source</th>
                 <th>Entry Type</th>
@@ -24,11 +24,11 @@
             </tr>
             <tr>
                 <td>
-                    <input type="date" class="form-control" id="dateFromFilter" onchange="filter()"/>
-                    <input type="date" class="form-control" id="dateToFilter" onchange="filter()"/>
+                    <input type="date" class="form-control" id="dateFromFilter" onchange="performFilter()"/>
+                    <input type="date" class="form-control" id="dateToFilter" onchange="performFilter()"/>
                 </td>
                 <td>
-                    <select id="sourceFilter" class="form-control" onchange="filter()">
+                    <select id="sourceFilter" class="form-control" onchange="performFilter()">
                         <option value="" selected="selected">Select to Filter..</option>
                         <option th:each="s : ${sources}"
                                 th:value="${s.id}"
@@ -44,7 +44,7 @@
                     </select>
                 </td>
                 <td>
-                    <select id="categoryFilter" class="form-control" onchange="filter()">
+                    <select id="categoryFilter" class="form-control" onchange="performFilter()">
 
                     </select>
                 </td>
@@ -70,7 +70,7 @@
                             }
                         }
                         $('#categoryFilter').html(options);
-                        filter();
+                        performFilter();
                         /*]]>*/
                     });
 
@@ -94,7 +94,13 @@
 
                         $('#categoryFilter').html(options);
                         /*]]>*/
-                        filter();
+                        performFilter();
+                    }
+
+                    function performFilter() {
+                        var token = $("meta[name='_csrf']").attr("content");
+                        var header = $("meta[name='_csrf_header']").attr("content");
+                        filter(header, token)
                     }
                 </script>
 

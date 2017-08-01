@@ -1,10 +1,7 @@
 package com.zor07.controllers;
 
 import com.zor07.domain.*;
-import com.zor07.services.CategoryService;
-import com.zor07.services.EntryService;
-import com.zor07.services.SearchCriteria;
-import com.zor07.services.SourceService;
+import com.zor07.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,6 +21,12 @@ public class EntryController {
     private EntryService entryService;
     private CategoryService categoryService;
     private SourceService sourceService;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setSourceService(SourceService sourceService) {
@@ -42,12 +45,13 @@ public class EntryController {
 
     @RequestMapping("/entries/list")
     public String list(Model model){
-        model.addAttribute("noEntries", entryService.list().isEmpty());
+        User currentUser = userService.getCurrentLoggedInUser();
+        model.addAttribute("noEntries", entryService.list(currentUser).isEmpty());
 
         /*Attributes for filtering entries*/
-        model.addAttribute("sources", sourceService.list());
+        model.addAttribute("sources", sourceService.list(currentUser));
         model.addAttribute("entryTypes", entryService.getEntryTypes());
-        model.addAttribute("categories", categoryService.list());
+        model.addAttribute("categories", categoryService.list(currentUser));
         return "entries/list";
     }
 
@@ -59,9 +63,10 @@ public class EntryController {
 
     @RequestMapping("/entries/new_entry")
     public String newIncomeEntry(Model model){
-        model.addAttribute("sources", sourceService.list());
+        User currentUser = userService.getCurrentLoggedInUser();
+        model.addAttribute("sources", sourceService.list(currentUser));
         model.addAttribute("oldCategory", new Category());
-        model.addAttribute("categories", categoryService.list());
+        model.addAttribute("categories", categoryService.list(currentUser));
         model.addAttribute("entry", new Entry());
         model.addAttribute("entryType", entryService.getEntryTypes());
         return "entries/new_entry";
@@ -69,21 +74,22 @@ public class EntryController {
 
     @RequestMapping(value = "/entries/save", method = RequestMethod.POST)
     public String saveEntry(Entry entry){
-        System.out.println(entry);
+        entry.setUser(userService.getCurrentLoggedInUser());
         entryService.save(entry);
         return "redirect:/entries/list";
     }
 
     @RequestMapping("/entries/edit/{id}")
     public String editEntry(@PathVariable Integer id, Model model){
+        User currentUser = userService.getCurrentLoggedInUser();
         Entry entry = entryService.getById(id);
         model.addAttribute("entry", entry);
         if (entry.getCategory() != null){
             model.addAttribute("oldCategory", entry.getCategory());
         }
         model.addAttribute("entryType", EntryType.values());
-        model.addAttribute("categories", categoryService.list());
-        model.addAttribute("sources", sourceService.list());
+        model.addAttribute("categories", categoryService.list(currentUser));
+        model.addAttribute("sources", sourceService.list(currentUser));
         return "entries/new_entry";
 
     }
