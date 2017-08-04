@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
+<head>
 
     <title>Login</title>
 
@@ -10,29 +10,30 @@
 <div class="container">
 
 
-    <h2>Login</h2>
+    <h2 th:text="#{login.header}"/>
+    <a href="?lang=en" th:text="#{lang.eng}"></a> | <a href="?lang=ru" th:text="#{lang.rus}"></a>
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Login with Username and Password</h3>
+                <h3 class="panel-title" th:text="#{login.message}"></h3>
             </div>
             <div class="panel-body">
-                    <div th:if="${logout}" class="alert alert-info" role="alert">You've been logged out successfully</div>
-                    <div th:if="${error}" class="alert alert-danger" role="alert">Invalid Username or Password!</div>
+                    <div th:if="${logout}" class="alert alert-info" role="alert" th:text="#{logout.message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="#{login.error}"></div>
                 <form method="post">
                     <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
                     <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Username" name="username"/>
+                        <label for="username" th:text="#{login.username}"></label>
+                        <input type="text" class="form-control" id="username" th:placeholder="#{login.username}" name="username"/>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password" name="password"/>
+                        <label for="password" th:text="#{login.password}">Password</label>
+                        <input type="password" class="form-control" id="password" th:placeholder="#{login.password}" name="password"/>
                     </div>
 
                     <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-default">Log in</button>
-                        <button type="button" class="btn btn-default" onclick="location.href='/register';" >Register</button>
+                        <button type="submit" class="btn btn-default" th:text="#{login.button}"></button>
+                        <button type="button" class="btn btn-default" th:text="#{register.button}" onclick="location.href='/register';" ></button>
                     </div>
                 </form>
             </div>
