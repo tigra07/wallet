@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Source</title>
+    <title th:text="#{sources.new}"></title>
 
     <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
 </head>
@@ -10,27 +10,27 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>New Source</h2>
+    <h2 th:text="#{sources.new}"></h2>
     <div>
         <form class="form-horizontal" th:object="${source}" th:action="@{/sources/save}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{version}"/>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Name:</label>
+                <label class="col-sm-2 control-label" th:text="#{sources.name}"></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{name}" th:required="required"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Description:</label>
+                <label class="col-sm-2 control-label" th:text="#{sources.description}"></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{description}" th:required="required"/>
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default" th:text="#{form.create}"></button>
             </div>
         </form>
     </div>

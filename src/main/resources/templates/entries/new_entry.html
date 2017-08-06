@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Entry</title>
+    <title th:text="#{entry.entry}">Entry</title>
 
     <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
     <script th:src="@{/js/functions.js}"></script>
@@ -15,21 +15,21 @@
     category
     amount
     -->
-    <h2>New Entry</h2>
+    <h2 th:text="#{entry.new}"></h2>
     <div>
         <form class="form-horizontal" th:object="${entry}" th:action="@{/entries/save}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{version}"/>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Entry Date:</label>
+                <label class="col-sm-2 control-label" th:text="#{entry.date}"></label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control" th:field="*{entryDate}" th:required="required"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Source:</label>
+                <label class="col-sm-2 control-label" th:text="#{entry.source}"></label>
                 <div class="col-sm-10">
                     <select th:field="*{source}"  id="sources" class="form-control">
                         <option th:each="s : ${sources}"
@@ -40,7 +40,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Entry Type:</label>
+                <label class="col-sm-2 control-label" th:text="#{entry.type}"></label>
                 <div class="col-sm-10">
                     <select th:field="*{entryType}" th:required="required"  id="entryType" onclick="toggleCategories()" class="form-control">
                         <option th:each="type : ${entryType}"
@@ -51,7 +51,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Category:</label>
+                <label class="col-sm-2 control-label" th:text="#{entry.category}">Category:</label>
                 <div class="col-sm-10">
                     <select th:field="*{category}" th:required="required" id="categories" class="form-control">
 
@@ -65,9 +65,9 @@
                     var categoriesArray = [[${categories}]];
                     var options;
                     if ([[${oldCategory}]] == null)
-                        options = "<option value='null' selected='selected'>Select category</option>";
+                        options = "<option value='null' selected='selected' th:text='#{entry.select.category}'></option>";
                     else
-                        options = "<option value='null'>Select category</option>"
+                        options = "<option value='null' th:text='#{entry.select.category}'></option>"
 
                     if ($('#entryType').val() != "") {
                         for (var i = 0; i < categoriesArray.length; i++){
@@ -89,7 +89,7 @@
                         /*<![CDATA[*/
                         var categoriesArray = [[${categories}]];
                         var options;
-                        options = "<option value selected='selected'>Select category</option>";
+                        options = "<option value selected='selected' th:text='#{entry.select.category}'></option>";
                         for (var i = 0; i < categoriesArray.length; i++){
                             if (categoriesArray[i].type.$name == $('#entryType').val()){
                                 options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
@@ -102,14 +102,14 @@
             </script>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Amount:</label>
+                <label class="col-sm-2 control-label" th:text="#{entry.amount}"></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{amount}" th:required="required"/>
                 </div>
             </div>
 
             <div class="row">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default" th:text="#{form.create}"></button>
             </div>
         </form>
     </div>

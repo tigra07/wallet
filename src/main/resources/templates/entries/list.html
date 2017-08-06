@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Entries</title>
+    <title th:text="#{entry.entries}"></title>
 
     <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
     <script th:src="@{/js/functions.js}"></script>
@@ -12,15 +12,15 @@
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
     <a th:href="${'/entries/new_entry'}"> CREATE </a>
     <div th:if="${not noEntries}">
-        <h2>Entries</h2>
+        <h2 th:text="#{entry.entries}"></h2>
         <table class="table table-striped" id="entriesTable">
             <tr>
-                <th>Entry Date</th>
-                <th>Entry Source</th>
-                <th>Entry Type</th>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>Actions</th>
+                <th th:text="#{entry.date}">Entry Date</th>
+                <th th:text="#{entry.source}">Entry Source</th>
+                <th th:text="#{entry.type}">Entry Type</th>
+                <th th:text="#{entry.category}">Category</th>
+                <th th:text="#{entry.amount}">Amount</th>
+                <th th:text="#{action.actions}">Actions</th>
             </tr>
             <tr>
                 <td>
@@ -29,7 +29,7 @@
                 </td>
                 <td>
                     <select id="sourceFilter" class="form-control" onchange="performFilter()">
-                        <option value="" selected="selected">Select to Filter..</option>
+                        <option value="" selected="selected" th:text="#{action.filter}"></option>
                         <option th:each="s : ${sources}"
                                 th:value="${s.id}"
                                 th:text="${s.name}">Source</option>
@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     <select id="typeFilter" class="form-control" onchange="toggleCategories()">
-                        <option value="" selected="selected">Select to Filter..</option>
+                        <option value="" selected="selected" th:text="#{action.filter}"></option>
                         <option th:each="type : ${entryTypes}"
                                 th:value="${type.name}"
                                 th:text="${type.name}">Entry Type</option>
@@ -60,7 +60,7 @@
                     $( document ).ready(function() {
                         /*<![CDATA[*/
                         var categoriesArray = [[${categories}]];
-                        var options = "<option value='' selected='selected'>Select to Filter..</option>";
+                        var options = "<option value='' selected='selected' th:text='#{action.filter}'>Select to Filter..</option>";
 
                         for (var i = 0; i < categoriesArray.length; i++){
                             if (($('#typeFilter').val() != "") && categoriesArray[i].type.$name == $('#typeFilter').val()){
@@ -78,7 +78,7 @@
                         /*<![CDATA[*/
                         var typeFilter = $('#typeFilter').val();
                         var categoriesArray = [[${categories}]];
-                        var options = "<option value='' selected='selected'>Select to Filter..</option>";
+                        var options = "<option value='' selected='selected' >Select to Filter..</option>";
                         if  (typeFilter != "") {
                             for (var i = 0; i < categoriesArray.length; i++){
                                 var categoryTypeName = categoriesArray[i].type.$name;

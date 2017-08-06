@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Category</title>
+    <title th:text="#{categories.category}"></title>
 
     <!--/*/ <th:block th:include="fragments/header:: head"></th:block> /*/-->
 </head>
@@ -10,13 +10,13 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>New Category</h2>
+    <h2 th:text="#{categories.new}"></h2>
     <div>
         <form class="form-horizontal" th:object="${category}" th:action="@{/categories/save}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{version}"/>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Type:</label>
+                <label class="col-sm-2 control-label" th:text="#{categories.type}"></label>
                 <div class="col-sm-10">
                     <div class="radio"  th:each="type : ${types}">
                         <label><input type="radio" th:field="*{type}" th:value="${type}" th:text="${type}" th:required="required"/></label>
@@ -24,20 +24,20 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Name:</label>
+                <label class="col-sm-2 control-label" th:text="#{categories.name}"></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{name}" th:required="required"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Rating:</label>
+                <label class="col-sm-2 control-label" th:text="#{categories.rating}"></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{rating}" th:required="required"/>
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default" th:text="#{form.save}"></button>
             </div>
         </form>
     </div>

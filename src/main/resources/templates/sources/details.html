@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Source Details</title>
+    <title th:text="#{sources.details}"></title>
 
     <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
 </head>
@@ -10,18 +10,18 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>Source Details</h2>
+    <h2 th:text="#{sources.details}"></h2>
     <div>
         <form class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-2 control-label">Name:</label>
+                <label class="col-sm-2 control-label" th:text="#{sources.name}"></label>
                 <div class="col-sm-10">
                     <p class="form-control-static" th:text="${source.name}">Name</p>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Description:</label>
+                <label class="col-sm-2 control-label" th:text="#{sources.description}"></label>
                 <div class="col-sm-10">
                     <p class="form-control-static" th:text="${source.description}">Description</p>
                 </div>

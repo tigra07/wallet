@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Categories</title>
+    <title th:text="#{categories.categories}"></title>
 
     <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
 </head>
@@ -10,29 +10,29 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
     <div th:if="${not #lists.isEmpty(categories)}">
-        <h2>Categories</h2>
+        <h2 th:text="#{categories.categories}"></h2>
         <table class="table table-striped">
             <tr>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Rating</th>
-                <th>Actions</th>
+                <th th:text="#{categories.type}"></th>
+                <th th:text="#{categories.name}"></th>
+                <th th:text="#{categories.rating}"></th>
+                <th th:text="#{action.actions}"></th>
             </tr>
             <tr th:each="category : ${categories}">
-                <td th:text="${category.type}">Type</td>
-                <td th:text="${category.name}">Name</td>
-                <td th:text="${category.rating}">Rating</td>
+                <td th:text="${category.type}"></td>
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.rating}"></td>
                 <td>
                     <ul class="list-inline">
-                        <li><a th:href="${ '/categories/details/' + category.id}">View</a></li>
-                        <li><a th:href="${'/categories/edit/' + category.id}">Edit</a></li>
-                        <li><a th:href="${'/categories/delete/' + category.id}">Delete</a></li>
+                        <li><a th:href="${ '/categories/details/' + category.id}" th:text="#{action.view}"></a></li>
+                        <li><a th:href="${'/categories/edit/' + category.id}" th:text="#{action.edit}"></a></li>
+                        <li><a th:href="${'/categories/delete/' + category.id}" th:text="#{action.delete}"></a></li>
                     </ul>
                 </td>
             </tr>
         </table>
     </div>
-    <a th:href="${ '/categories/new'}">Create category</a>
+    <a th:href="${ '/categories/new'}" th:text="#{categories.create}"></a>
 </div>
 
 </body>
