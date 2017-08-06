@@ -10,7 +10,7 @@
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-    <a th:href="${'/entries/new_entry'}"> CREATE </a>
+    <a th:href="${'/entries/new_entry'}" th:text="#{form.create}"></a>
     <div th:if="${not noEntries}">
         <h2 th:text="#{entry.entries}"></h2>
         <table class="table table-striped" id="entriesTable">
