@@ -13,8 +13,7 @@ public class IndexController {
     public String index(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
-        String greeting = String.format("Welcome to your wallet, master %s", name);
-        model.addAttribute("greeting", greeting);
+        model.addAttribute("name", name);
 
         return "index";
     }

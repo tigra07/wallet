@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.zor07</groupId>
-	<artifactId>Budget</artifactId>
+	<artifactId>wallet</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
@@ -24,6 +24,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<start-class>com.zor07.DemoApplication</start-class>
+		<docker.baseDir>/src/main/docker</docker.baseDir>
 	</properties>
 
 	<dependencies>
@@ -93,6 +94,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -104,7 +108,29 @@
 					<warName>ROOT</warName>
 				</configuration>
 			</plugin>
+			<plugin>
+    				<groupId>com.spotify</groupId>
+    				<artifactId>docker-maven-plugin</artifactId>
+			   		<version>0.4.11</version>
+    				<configuration>
+	        			<imageName>zor07/${project.artifactId}</imageName>
+        				<dockerDirectory>${docker.baseDir}</dockerDirectory>
+        				<resources>
+            					<resource>
+                					<targetPath>/</targetPath>
+                					<directory>${project.build.directory}</directory>
+                					<include>${project.build.finalName}.jar</include>
+            					</resource>
+								<resource>
+									<targetPath>/</targetPath>
+									<directory>${docker.baseDir}</directory>
+									<include>wrapper.sh</include>
+								</resource>
+        				</resources>
+    				</configuration>
+			</plugin>
 		</plugins>
+		<finalName>${project.artifactId}</finalName>
 	</build>
 
 	<repositories>

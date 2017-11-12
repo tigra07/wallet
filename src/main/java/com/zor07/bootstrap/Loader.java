@@ -45,6 +45,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        if (1==1) return;
         for (int j = 0; j < 3; j++) {
             User user = createUser();
             for (int i = 0; i < 2; i++) {
