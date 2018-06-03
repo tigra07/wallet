@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `wallet_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE IF NOT EXISTS `wallet_db` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE wallet_db;
 
