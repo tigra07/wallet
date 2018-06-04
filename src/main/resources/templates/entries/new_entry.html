@@ -5,6 +5,13 @@
 
     <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
     <script th:src="@{/js/functions.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:inline="javascript">
+        $( document ).ready(function() {
+            var today = moment().format('YYYY-MM-DD');
+            $("#entryDate").val(today);
+        });
+    </script>
 </head>
 <body>
 <div class="container">
@@ -24,7 +31,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label" th:text="#{entry.date}"></label>
                 <div class="col-sm-10">
-                    <input type="date" class="form-control" th:field="*{entryDate}" th:required="required"/>
+                    <input type="date" id="entryDate" class="form-control" th:field="*{entryDate}" th:required="required"/>
                 </div>
             </div>
 
@@ -58,48 +65,6 @@
                     </select>
                 </div>
             </div>
-
-            <script th:inline="javascript">
-                $( document ).ready(function() {
-                    /*<![CDATA[*/
-                    var categoriesArray = [[${categories}]];
-                    var options;
-                    if ([[${oldCategory}]] == null)
-                        options = "<option value='null' selected='selected' th:text='#{entry.select.category}'></option>";
-                    else
-                        options = "<option value='null' th:text='#{entry.select.category}'></option>"
-
-                    if ($('#entryType').val() != "") {
-                        for (var i = 0; i < categoriesArray.length; i++){
-                            if (categoriesArray[i].type.$name == $('#entryType').val()){
-
-                                if ([[${oldCategory.name}]] == categoriesArray[i].name)
-                                    options += "<option value='"+categoriesArray[i].id+"' selected='selected' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
-                                else
-                                    options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
-                            }
-                        }
-                    }
-                    $('#categories').html(options);
-                    /*]]>*/
-                });
-
-                function toggleCategories() {
-                    $('#entryType').change(function () {
-                        /*<![CDATA[*/
-                        var categoriesArray = [[${categories}]];
-                        var options;
-                        options = "<option value selected='selected' th:text='#{entry.select.category}'></option>";
-                        for (var i = 0; i < categoriesArray.length; i++){
-                            if (categoriesArray[i].type.$name == $('#entryType').val()){
-                                options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
-                            }
-                        }
-                        $('#categories').html(options);
-                        /*]]>*/
-                    });
-                }
-            </script>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label" th:text="#{entry.amount}"></label>
