@@ -28,7 +28,7 @@ public class Entry implements Comparable<Entry> {
 
     @ManyToOne
     @JoinColumn
-    private Source source;
+    private Account account;
 
     private BigDecimal amount;
 
@@ -87,12 +87,12 @@ public class Entry implements Comparable<Entry> {
         this.amount = amount;
     }
 
-    public Source getSource() {
-        return source;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSource(Source source) {
-        this.source = source;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public User getUser() {
@@ -112,7 +112,7 @@ public class Entry implements Comparable<Entry> {
                 ", entryDate=" + entryDate +
                 ", entryType=" + entryType +
                 ", category=" + category +
-                ", source=" + source +
+                ", account=" + account +
                 ", amount=" + amount +
                 '}';
     }

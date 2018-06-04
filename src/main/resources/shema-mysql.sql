@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   CONSTRAINT `FK7ffrpnxaflomhdh0qfk2jcndo` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `source` (
+CREATE TABLE IF NOT EXISTS `account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -56,13 +56,13 @@ CREATE TABLE IF NOT EXISTS `entry` (
   `entry_type` varchar(255) DEFAULT NULL,
   `version` int(11) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `source_id` int(11) DEFAULT NULL,
+  `account_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKf7mt5po7olj7eiwqlt6t3qc7j` (`category_id`),
-  KEY `FKlc84qpytoriece3lletxirhf` (`source_id`),
+  KEY `FKlc84qpytoriece3lletxirhf` (`account_id`),
   KEY `FKftvnb1ll0a4l98cgcif439dvp` (`user_id`),
   CONSTRAINT `FKf7mt5po7olj7eiwqlt6t3qc7j` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FKftvnb1ll0a4l98cgcif439dvp` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FKlc84qpytoriece3lletxirhf` FOREIGN KEY (`source_id`) REFERENCES `source` (`id`)
+  CONSTRAINT `FKlc84qpytoriece3lletxirhf` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;

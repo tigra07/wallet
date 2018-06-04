@@ -3,7 +3,7 @@ function filter(header, token) {
     var search = {}
     search["dateFromFilterStr"] = $("#dateFromFilter").val();
     search["dateToFilterStr"]   = $("#dateToFilter").val();
-    search["sourceFilterStr"]   = $("#sourceFilter").val();
+    search["accountFilterStr"]   = $("#accountFilter").val();
     search["typeFilterStr"]     = $("#typeFilter").val();
     search["categoryFilterStr"] = $("#categoryFilter").val();
 
@@ -39,7 +39,7 @@ function filter(header, token) {
                 var cellActions  = row.insertCell(5);
 
                 cellDate.innerHTML     = entries[i].entryDate;
-                cellSource.innerHTML   = entries[i].source.name;
+                cellSource.innerHTML   = entries[i].account.name;
                 cellType.innerHTML     = entries[i].entryType;
                 cellCategory.innerHTML = entries[i].category.name;
                 cellAmount.innerHTML   = entries[i].amount;

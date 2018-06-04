@@ -1,9 +1,9 @@
 package com.zor07.services;
 
 import com.zor07.bootstrap.ApplicationContextHolder;
+import com.zor07.domain.Account;
 import com.zor07.domain.Category;
 import com.zor07.domain.EntryType;
-import com.zor07.domain.Source;
 import com.zor07.domain.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,17 +20,17 @@ public class SearchCriteria {
     private User userFilter;
     private Date dateFromFilter;
     private Date dateToFilter;
-    private Source sourceFilter;
+    private Account accountFilter;
     private EntryType typeFilter;
     private Category categoryFilter;
 
     private String dateFromFilterStr;
     private String dateToFilterStr;
-    private String sourceFilterStr;
+    private String accountFilterStr;
     private String typeFilterStr;
     private String categoryFilterStr;
 
-    private SourceService sourceService;
+    private AccountService accountService;
     private CategoryService categoryService;
     private UserService userService;
 
@@ -38,8 +38,8 @@ public class SearchCriteria {
     }
 
     void parse(){
-        if (sourceService == null){
-            sourceService = ApplicationContextHolder.getContext().getBean(SourceService.class);
+        if (accountService == null){
+            accountService = ApplicationContextHolder.getContext().getBean(AccountService.class);
         }
         if (categoryService == null){
             categoryService = ApplicationContextHolder.getContext().getBean(CategoryService.class);
@@ -56,9 +56,9 @@ public class SearchCriteria {
                 : parseDate(dateToFilterStr);
 
 
-        sourceFilter = "".equals(sourceFilterStr)
+        accountFilter = "".equals(accountFilterStr)
                 ? null
-                : sourceService.getById(Integer.parseInt(sourceFilterStr));
+                : accountService.getById(Integer.parseInt(accountFilterStr));
 
         typeFilter = "".equals(typeFilterStr)
                 ? null
@@ -76,7 +76,7 @@ public class SearchCriteria {
     boolean filterIsEmpty(){
         return dateFromFilter == null
             && dateToFilter   == null
-            && sourceFilter   == null
+            && accountFilter == null
             && typeFilter     == null
             && categoryFilter == null;
     }
@@ -101,8 +101,8 @@ public class SearchCriteria {
         return dateToFilter;
     }
 
-    public Source getSourceFilter() {
-        return sourceFilter;
+    public Account getAccountFilter() {
+        return accountFilter;
     }
 
     public EntryType getTypeFilter() {
@@ -129,8 +129,8 @@ public class SearchCriteria {
         this.dateToFilterStr = dateToFilterStr;
     }
 
-    public void setSourceFilterStr(String sourceFilterStr) {
-        this.sourceFilterStr = sourceFilterStr;
+    public void setAccountFilterStr(String accountFilterStr) {
+        this.accountFilterStr = accountFilterStr;
     }
 
     public void setTypeFilterStr(String typeFilterStr) {

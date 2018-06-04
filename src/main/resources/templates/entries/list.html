@@ -16,7 +16,7 @@
         <table class="table table-striped" id="entriesTable">
             <tr>
                 <th th:text="#{entry.date}">Entry Date</th>
-                <th th:text="#{entry.source}">Entry Source</th>
+                <th th:text="#{entry.account}">Entry account</th>
                 <th th:text="#{entry.type}">Entry Type</th>
                 <th th:text="#{entry.category}">Category</th>
                 <th th:text="#{entry.amount}">Amount</th>
@@ -28,11 +28,11 @@
                     <input type="date" class="form-control" id="dateToFilter" onchange="performFilter()"/>
                 </td>
                 <td>
-                    <select id="sourceFilter" class="form-control" onchange="performFilter()">
+                    <select id="accountFilter" class="form-control" onchange="performFilter()">
                         <option value="" selected="selected" th:text="#{action.filter}"></option>
-                        <option th:each="s : ${sources}"
+                        <option th:each="s : ${accounts}"
                                 th:value="${s.id}"
-                                th:text="${s.name}">Source</option>
+                                th:text="${s.name}">account</option>
                     </select>
                 </td>
                 <td>
@@ -110,7 +110,7 @@
             </tr>
             <!--tr th:each="entry : ${entries}">
                 <td th:text="${entry.entryDate}" colspan="2">Date</td>
-                <td th:text="${entry.source}">Source</td>
+                <td th:text="${entry.account}">account</td>
                 <td th:text="${entry.entryType}">Type</td>
                 <td th:text="${entry.category}">Category</td>
                 <td th:text="${entry.amount}">Amount</td>

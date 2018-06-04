@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title th:text="#{accounts.accounts}"></title>
+
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(accounts)}">
+        <h2 th:text="#{accounts.accounts}"></h2>
+        <table class="table table-striped">
+            <tr>
+                <th th:text="#{accounts.name}"></th>
+                <th th:text="#{accounts.description}"></th>
+                <th th:text="#{action.actions}"></th>
+            </tr>
+            <tr th:each="account : ${accounts}">
+                <td th:text="${account.name}">Name</td>
+                <td th:text="${account.description}">Description</td>
+                <td>
+                    <ul class="list-inline">
+                        <li><a th:href="${'/accounts/details/' + account.id}" th:text="#{action.view}"></a></li>
+                        <li><a th:href="${'/accounts/edit/'    + account.id}" th:text="#{action.edit}"></a></li>
+                        <li><a th:href="${'/accounts/delete/'  + account.id}" th:text="#{action.delete}"></a></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <a th:href="${ '/accounts/new'}" th:text="#{accounts.create}"></a>
+</div>
+
+</body>
+</html>

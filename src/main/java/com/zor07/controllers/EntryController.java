@@ -17,10 +17,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/entries")
 public class EntryController {
     private EntryService entryService;
     private CategoryService categoryService;
-    private SourceService sourceService;
+    private AccountService accountService;
     private UserService userService;
 
     @Autowired
@@ -29,8 +30,8 @@ public class EntryController {
     }
 
     @Autowired
-    public void setSourceService(SourceService sourceService) {
-        this.sourceService = sourceService;
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @Autowired
@@ -43,28 +44,28 @@ public class EntryController {
         this.entryService = entryService;
     }
 
-    @RequestMapping("/entries/list")
+    @RequestMapping("/list")
     public String list(Model model){
         User currentUser = userService.getCurrentLoggedInUser();
         model.addAttribute("noEntries", entryService.list(currentUser).isEmpty());
 
         /*Attributes for filtering entries*/
-        model.addAttribute("sources", sourceService.list(currentUser));
+        model.addAttribute("accounts", accountService.list(currentUser));
         model.addAttribute("entryTypes", entryService.getEntryTypes());
         model.addAttribute("categories", categoryService.list(currentUser));
         return "entries/list";
     }
 
-    @RequestMapping("/entries/details/{id}")
+    @RequestMapping("/details/{id}")
     public String card(@PathVariable Integer id, Model model){
         model.addAttribute("entry", entryService.getById(id));
         return "entries/details";
     }
 
-    @RequestMapping("/entries/new_entry")
+    @RequestMapping("/new_entry")
     public String newIncomeEntry(Model model){
         User currentUser = userService.getCurrentLoggedInUser();
-        model.addAttribute("sources", sourceService.list(currentUser));
+        model.addAttribute("accounts", accountService.list(currentUser));
         model.addAttribute("oldCategory", new Category());
         model.addAttribute("categories", categoryService.list(currentUser));
         model.addAttribute("entry", new Entry());
@@ -72,14 +73,14 @@ public class EntryController {
         return "entries/new_entry";
     }
 
-    @RequestMapping(value = "/entries/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveEntry(Entry entry){
         entry.setUser(userService.getCurrentLoggedInUser());
         entryService.save(entry);
         return "redirect:/entries/list";
     }
 
-    @RequestMapping("/entries/edit/{id}")
+    @RequestMapping("/edit/{id}")
     public String editEntry(@PathVariable Integer id, Model model){
         User currentUser = userService.getCurrentLoggedInUser();
         Entry entry = entryService.getById(id);
@@ -89,18 +90,18 @@ public class EntryController {
         }
         model.addAttribute("entryType", EntryType.values());
         model.addAttribute("categories", categoryService.list(currentUser));
-        model.addAttribute("sources", sourceService.list(currentUser));
+        model.addAttribute("accounts", accountService.list(currentUser));
         return "entries/new_entry";
 
     }
 
-    @RequestMapping(value = "/entries/delete/{id}")
+    @RequestMapping(value = "/delete/{id}")
     public String saveEntry(@PathVariable Integer id){
         entryService.delete(id);
         return "redirect:/entries/list";
     }
 
-    @RequestMapping("/entries/api/filter")
+    @RequestMapping("/api/filter")
     public ResponseEntity<?> filter(@Valid @RequestBody SearchCriteria searchCriteria, Errors errors){
         AjaxResponseBody result = new AjaxResponseBody();
         if (errors.hasErrors()){

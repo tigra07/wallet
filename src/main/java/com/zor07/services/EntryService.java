@@ -62,9 +62,9 @@ public class EntryService implements DomainService<Entry>{
                 ? null
                 : criteria.getCategoryFilter().getId();
 
-        Integer sourceFilterId = criteria.getSourceFilter() == null
+        Integer accountFilterId = criteria.getAccountFilter() == null
                 ? null
-                : criteria.getSourceFilter().getId();
+                : criteria.getAccountFilter().getId();
 
         /* Filter by FromDate */
         if (dateFrom != null){
@@ -80,10 +80,10 @@ public class EntryService implements DomainService<Entry>{
                     .collect(Collectors.toList());
         }
 
-        /* Filter by Source */
-        if (sourceFilterId != null){
+        /* Filter by Account */
+        if (accountFilterId != null){
             result = result.stream()
-                    .filter(e -> e.getSource().getId().equals(sourceFilterId))
+                    .filter(e -> e.getAccount().getId().equals(accountFilterId))
                     .collect(Collectors.toList());
         }
 

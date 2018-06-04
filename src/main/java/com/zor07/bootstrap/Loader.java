@@ -3,7 +3,7 @@ package com.zor07.bootstrap;
 import com.zor07.domain.*;
 import com.zor07.repositories.CategoryRepository;
 import com.zor07.repositories.EntryRepository;
-import com.zor07.repositories.SourceRepository;
+import com.zor07.repositories.AccountRepository;
 import com.zor07.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -18,7 +18,7 @@ import java.util.GregorianCalendar;
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     private CategoryRepository categoryRepository;
-    private SourceRepository  sourceRepository;
+    private AccountRepository accountRepository;
     private EntryRepository entryRepo;
     private UserRepository userRepo;
     private static int userCount;
@@ -29,8 +29,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         this.categoryRepository = categoryRepository;
     }
     @Autowired
-    public void setSourceRepository(SourceRepository sourceRepository) {
-        this.sourceRepository = sourceRepository;
+    public void setAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
     @Autowired
     public void setEntryRepo(EntryRepository entryRepo) {
@@ -49,8 +49,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
         for (int j = 0; j < 3; j++) {
             User user = createUser();
             for (int i = 0; i < 2; i++) {
-                Source source = createSource(user);
-                createEntries(user, source);
+                Account account = createSource(user);
+                createEntries(user, account);
             }
         }
         createUser();
@@ -74,17 +74,17 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
     }
 
 
-    private Source createSource(User user){
+    private Account createSource(User user){
         sourceCount ++;
-        Source source = new Source();
-        source.setName(user.getUsername() + " debit card " + sourceCount);
-        source.setDescription("Дебетовая карта");
-        source.setUser(user);
-        sourceRepository.save(source);
-        return source;
+        Account account = new Account();
+        account.setName(user.getUsername() + " debit card " + sourceCount);
+        account.setDescription("Дебетовая карта");
+        account.setUser(user);
+        accountRepository.save(account);
+        return account;
     }
 
-    private void createEntries(User user, Source source){
+    private void createEntries(User user, Account account){
         for (int i = 1; i < 5; i++) {
             count ++ ;
             Category category = new Category();
@@ -96,18 +96,18 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent>{
             category.setUser(user);
             category.setRating(i);
             categoryRepository.save(category);
-            createEntries(category, source, user);
+            createEntries(category, account, user);
         }
     }
 
-    private void createEntries(Category category, Source source, User user){
+    private void createEntries(Category category, Account account, User user){
         for (int j = 0; j < 4; j++) {
             Entry e = new Entry();
             e.setUser(user);
             e.setEntryDate(getRandDate());
             e.setEntryType(category.getType());
             e.setCategory(category);
-            e.setSource(source);
+            e.setAccount(account);
             e.setAmount(new BigDecimal(randBetween(12, 100)));
             entryRepo.save(e);
         }

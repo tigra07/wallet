@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping("/categories")
 public class CategoryController {
     private CategoryService categoryService;
     private UserService userService;
@@ -27,41 +28,41 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @RequestMapping("/categories/list")
+    @RequestMapping("/list")
     public String list(Model model){
         User currentUser = userService.getCurrentLoggedInUser();
         model.addAttribute("categories", categoryService.list(currentUser));
         return "categories/list";
     }
 
-    @RequestMapping("/categories/details/{id}")
+    @RequestMapping("/details/{id}")
     public String card(@PathVariable Integer id, Model model){
         model.addAttribute("category", categoryService.getById(id));
         return "categories/details";
     }
 
-    @RequestMapping("/categories/new")
+    @RequestMapping("/new")
     public String newCategory(Model model){
         model.addAttribute("types", EntryType.values());
         model.addAttribute("category", new Category());
         return "categories/form";
     }
 
-    @RequestMapping(value = "/categories/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveCategory(Category category){
         category.setUser(userService.getCurrentLoggedInUser());
         categoryService.save(category);
         return "redirect:/categories/list";
     }
 
-    @RequestMapping("/categories/edit/{id}")
+    @RequestMapping("/edit/{id}")
     public String editCategory(@PathVariable Integer id, Model model){
         model.addAttribute("types", EntryType.values());
         model.addAttribute("category", categoryService.getById(id));
         return "categories/form";
     }
 
-    @RequestMapping(value = "/categories/delete/{id}")
+    @RequestMapping(value = "/delete/{id}")
     public String deleteCategory(@PathVariable Integer id){
         categoryService.delete(id);
         return "redirect:/categories/list";

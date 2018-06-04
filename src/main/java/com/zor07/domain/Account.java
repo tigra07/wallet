@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
-public class Source {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,7 +19,7 @@ public class Source {
     private String name;
     private String description;
 
-    public Source() {
+    public Account() {
     }
 
     public Integer getId() {
@@ -72,10 +72,10 @@ public class Source {
         if (object == null){
             return false;
         }
-        if (!Source.class.isAssignableFrom(object.getClass())){
+        if (!Account.class.isAssignableFrom(object.getClass())){
             return false;
         }
-        final Source source = (Source) object;
-        return id.equals(source.id);
+        final Account account = (Account) object;
+        return id.equals(account.id);
     }
 }
