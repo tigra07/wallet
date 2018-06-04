@@ -78,7 +78,7 @@
                         /*<![CDATA[*/
                         var typeFilter = $('#typeFilter').val();
                         var categoriesArray = [[${categories}]];
-                        var options = "<option value='' selected='selected' >Select to Filter..</option>";
+                        var options = "<option value='' selected='selected' th:text='#{action.filter}'>Select to Filter..</option>";
                         if  (typeFilter != "") {
                             for (var i = 0; i < categoriesArray.length; i++){
                                 var categoryTypeName = categoriesArray[i].type.$name;

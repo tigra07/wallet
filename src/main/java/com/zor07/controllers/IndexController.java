@@ -21,12 +21,4 @@ public class IndexController {
 
         return "index";
     }
-
-    @RequestMapping("/show")
-    public
-    @ResponseBody
-    String getLocation(){
-        URL classesRootDir = getClass().getProtectionDomain().getCodeSource().getLocation();
-        return classesRootDir.toString();
-    }
 }
