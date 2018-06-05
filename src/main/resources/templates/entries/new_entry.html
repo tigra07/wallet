@@ -8,9 +8,50 @@
     <script th:src="@{/js/moment.js}"></script>
     <script th:inline="javascript">
         $( document ).ready(function() {
+            /*<![CDATA[*/
+            setCurrentDate();
+            var categoriesArray = [[${categories}]];
+            var options;
+            if ([[${oldCategory}]] == null)
+                options = "<option value='null' selected='selected' th:text='#{entry.select.category}'></option>";
+            else
+                options = "<option value='null' th:text='#{entry.select.category}'></option>"
+
+            if ($('#entryType').val() != "") {
+                for (var i = 0; i < categoriesArray.length; i++){
+                    if (categoriesArray[i].type.$name == $('#entryType').val()){
+
+                        if ([[${oldCategory.name}]] == categoriesArray[i].name)
+                            options += "<option value='"+categoriesArray[i].id+"' selected='selected' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                        else
+                            options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                    }
+                }
+            }
+            $('#categories').html(options);
+            /*]]>*/
+        });
+
+        function setCurrentDate() {
             var today = moment().format('YYYY-MM-DD');
             $("#entryDate").val(today);
-        });
+        }
+
+        function toggleCategories() {
+            $('#entryType').change(function () {
+                /*<![CDATA[*/
+                var categoriesArray = [[${categories}]];
+                var options;
+                options = "<option value selected='selected' th:text='#{entry.select.category}'></option>";
+                for (var i = 0; i < categoriesArray.length; i++){
+                    if (categoriesArray[i].type.$name == $('#entryType').val()){
+                        options += "<option value='"+categoriesArray[i].id+"' text='"+categoriesArray[i].name+"'>"+categoriesArray[i].name+"</option>";
+                    }
+                }
+                $('#categories').html(options);
+                /*]]>*/
+            });
+        }
     </script>
 </head>
 <body>

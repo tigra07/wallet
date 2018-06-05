@@ -15,13 +15,13 @@
             <tr>
                 <th th:text="#{categories.type}"></th>
                 <th th:text="#{categories.name}"></th>
-                <th th:text="#{categories.rating}"></th>
+                <!--<th th:text="#{categories.rating}"></th>-->
                 <th th:text="#{action.actions}"></th>
             </tr>
             <tr th:each="category : ${categories}">
                 <td th:text="${category.type}"></td>
                 <td th:text="${category.name}"></td>
-                <td th:text="${category.rating}"></td>
+                <!--<td th:text="${category.rating}"></td>-->
                 <td>
                     <ul class="list-inline">
                         <li><a th:href="${ '/categories/details/' + category.id}" th:text="#{action.view}"></a></li>
